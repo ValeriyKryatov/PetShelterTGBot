@@ -1,0 +1,44 @@
+package PetShelterTGBot.model;
+
+
+
+import lombok.*;
+
+import javax.persistence.*;
+
+/**
+ * Усыновители.
+ */
+@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "adopters")
+public class Adopter {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
+
+    public Adopter(User user, Animal animal, Shelter shelter) {
+        this.user = user;
+        this.animal = animal;
+        this.shelter = shelter;
+    }
+}
