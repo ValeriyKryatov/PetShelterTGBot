@@ -9,5 +9,4 @@ public class PetShelterTgBotApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PetShelterTgBotApplication.class, args);
 	}
-
 }
