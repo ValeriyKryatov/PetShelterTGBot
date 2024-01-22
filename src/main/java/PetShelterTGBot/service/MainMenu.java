@@ -1,22 +1,22 @@
 package PetShelterTGBot.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
+import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * это класс который создает меню в углу командной строки
+ *
  **/
 @Slf4j
 @Service
 public class MainMenu {
-    public static void mainMenuButton(TelegramBot bot) {
+    public static void mainMenuButton (TelegramBot bot) {
         List<BotCommand> listofCommands = new ArrayList<>();
         listofCommands.add(new BotCommand("/start", "Приветствие"));
         listofCommands.add(new BotCommand("/menu1", "Приют для кошек"));

@@ -12,11 +12,11 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @Slf4j
 @Component
 public class BotInitializer {
-    final TelegramBot bot;
+    private final TelegramBot bot;
 
     public BotInitializer(TelegramBot bot) {
         this.bot = bot;
-        System.out.println(" Запустили телеграм бота !");
+        System.out.println("Запустили телеграм бота!");
     }
 
     @EventListener({ContextRefreshedEvent.class})
@@ -24,7 +24,7 @@ public class BotInitializer {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         try {
             telegramBotsApi.registerBot(bot);
-            System.out.println(" Регистрируем телеграм бота в Tomcat !");
+            System.out.println("Регистрируем телеграм бота в Tomcat!");
         } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }

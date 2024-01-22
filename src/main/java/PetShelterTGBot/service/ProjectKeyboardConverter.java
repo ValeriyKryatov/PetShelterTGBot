@@ -8,15 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Slf4j
 @Service
-public class ProjectKeyboardConverter {
+public class ProjectKeyboardConverter  {
 //     отображение кнопок клавиатуры привязанной к сообщению в телеграм боте
 
-    public SendMessage inlineKeyboard(long chat_id, String incomingText, List<String> list, TelegramBot bot) {
+    public SendMessage inLineKeyboard(long chat_id, String incomingText, List<String> list, TelegramBot bot) {
 
-        bot.userAlreadyInteracted.put(chat_id, list);
+        bot.userAlreadyInteracted.put(chat_id,list);
         SendMessage message = new SendMessage();
         message.setChatId(chat_id);
         message.setText(incomingText);
@@ -25,7 +24,7 @@ public class ProjectKeyboardConverter {
 
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        for (int i = 0; i < list.size(); ) {
+        for (int i = 0; i < list.size(); ){
             List<InlineKeyboardButton> rowInlineT = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(list.get(i));
@@ -38,4 +37,5 @@ public class ProjectKeyboardConverter {
         message.setReplyMarkup(markupInline);
         return message;
     }
+
 }
