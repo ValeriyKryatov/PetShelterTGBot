@@ -16,4 +16,6 @@ public class BotConfig {
     private String token;
     @Value("${bot.hetPathToTheImageFile}")
     private String thePathToTheImageFile;
+    @Value("src/main/resources/dogShelter.jpg")
+    private String thePathToTheImageFile2;
 }

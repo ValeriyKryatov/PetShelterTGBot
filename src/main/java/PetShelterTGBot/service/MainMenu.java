@@ -11,19 +11,18 @@ import java.util.List;
 
 /**
  * это класс который создает меню в углу командной строки
- *
  **/
 @Slf4j
 @Service
 public class MainMenu {
     public static void mainMenuButton (TelegramBot bot) {
-        List<BotCommand> listofCommands = new ArrayList<>();
-        listofCommands.add(new BotCommand("/start", "Приветствие"));
-        listofCommands.add(new BotCommand("/menu1", "Приют для кошек"));
-        listofCommands.add(new BotCommand("/menu2", "Приют для собак"));
-        listofCommands.add(new BotCommand("/menu3", ".... в разработке "));
+        List<BotCommand> listOfCommands = new ArrayList<>();
+        listOfCommands.add(new BotCommand("/start", "Приветствие"));
+        listOfCommands.add(new BotCommand("/menu1", "Приют для кошек"));
+        listOfCommands.add(new BotCommand("/menu2", "Приют для собак"));
+        listOfCommands.add(new BotCommand("/menu3", ".... в разработке "));
         try {
-            bot.execute(new SetMyCommands(listofCommands,
+            bot.execute(new SetMyCommands(listOfCommands,
                     new BotCommandScopeDefault(),
                     null));
         } catch (

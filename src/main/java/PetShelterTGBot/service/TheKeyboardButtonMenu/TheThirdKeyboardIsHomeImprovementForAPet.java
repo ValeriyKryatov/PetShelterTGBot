@@ -9,7 +9,7 @@ import java.util.List;
 public class TheThirdKeyboardIsHomeImprovementForAPet {
     public static List<String> getList(Animals enumAnimals) {
         List<String> list = new ArrayList<>();
-        list.add("Животное детском возрасте ");
+        list.add("Животное в детском возрасте ");
         list.add("/animal" + enumAnimals.getTitle());
         list.add("Взрослое животное");
         list.add("/an adult animal" + enumAnimals.getTitle());

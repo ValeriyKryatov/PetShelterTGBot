@@ -6,7 +6,6 @@ import PetShelterTGBot.theEnumConstants.Animals;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -14,12 +13,11 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
+
+import static PetShelterTGBot.constant.Constant.GREETINGS_AT_THE_SHELTER_INFO;
 
 @Slf4j
 @Service
@@ -71,11 +69,19 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botConfig.getBotName();
     }
     @Override
-    public String getBotToken() { return botConfig.getToken(); }
+    public String getBotToken() {
+        return botConfig.getToken();
+    }
 
-    public String getBotThePathToTheImageFile(){ return botConfig.getThePathToTheImageFile();}
+    public String getBotThePathToTheImageFile() {
+        return botConfig.getThePathToTheImageFile();
+    }
+    public String getBotThePathToTheImageFile2() {
+        return botConfig.getThePathToTheImageFile2();
+    }
 
-    public ProjectKeyboardConverter getProjectKeyboardConverter(){ return projectKeyboardConverter;}
+    public ProjectKeyboardConverter getProjectKeyboardConverter() {
+        return projectKeyboardConverter;}
 
     /**    метод, который принимает "сообщения" (объекты) присланные с телеграмм бота,
      выделяет нужные нам поля из данных (присланных) объектов и передает эти поля
@@ -126,24 +132,22 @@ public class TelegramBot extends TelegramLongPollingBot {
         System.out.println(" Вошли в метод ==>  actionSelectorFromUpdate ==>" + text);
         switch (text) {
             case "/start":
-                System.out.println(" Вошли ==>   case \"/start\" в методe actionSelectorFromUpdate ==>" + text);
+                System.out.println(" Вошли ==>   case \"/start\" в метод actionSelectorFromUpdate ==>" + text);
 //              Проверка, был ли пользователь в нашем ранее боте, если пользователь впервые - то приветствие,
 //                если нет то клавиатура, которую ранее покинул, входящий сейчас пользователь
                 sendMessage(userLogsInForTheFirstTime(startStringReceived(nameUser)));
                 break;
             case "/menu1": {
 //             Вызов, (отображение) клавиатуры привязанной к сообщению в чате
-                sendMessage(projectKeyboardConverter.inLineKeyboard(chatId,
-                        "Выберете, пожалуйста, вариант из предложенного меню!",
+                sendMessage(projectKeyboardConverter.inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
                         TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.CAT),this));
             }
             break;
             case "/menu2": {
 //              Вызов, (отображение) клавиатуры привязанной к сообщению в чате
 //                sendMessage(inlineKeyboardShelterInformation2);
-                sendMessage(projectKeyboardConverter.inLineKeyboard(chatId,
-                        "Выберете, пожалуйста, вариант из предложенного меню!",
-                        TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(Animals.DOG),this));
+                sendMessage(projectKeyboardConverter.inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                        TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.DOG),this));
             }
             break;
             case "/menu3": {
@@ -216,11 +220,15 @@ public class TelegramBot extends TelegramLongPollingBot {
         try {
             SendPhoto sendPhotoRequest = new SendPhoto();
             sendPhotoRequest.setChatId(chatId);
-//          Указываем путь к файлу изображения
+//          Указываем путь к файлу изображения подключаем либо с application.properties либо напрямую
             File image = new File(getBotThePathToTheImageFile());
-//          File image = new File("Telegram-Bot/src/main/resources/87295ec5.jpg");
+//          File image = new File(src/main/resources/catShelter.jpg");
+//          File image2 = new File(getBotThePathToTheImageFile2());
+//          File image2 = new File(src/main/resources/dogShelter.jpg");
             InputFile inputFile = new InputFile(image);
+//          InputFile inputFile2 = new InputFile(image2);
             sendPhotoRequest.setPhoto(inputFile);
+//            sendPhotoRequest.setPhoto(inputFile2);
             this.execute(sendPhotoRequest);
         } catch (NullPointerException | TelegramApiException e) {
             e.printStackTrace();

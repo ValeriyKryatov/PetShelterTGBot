@@ -4,7 +4,7 @@ import PetShelterTGBot.theEnumConstants.Animals;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Четвертая клавиатура — предоставление отсчета о животном */
+/** Четвертая клавиатура — предоставление отчета о животном */
 public class TheFourthKeyboardIsToProvideAReadoutOfTheAnimal {
     public static List<String> getList(Animals enumAnimals) {
         List<String> list = new ArrayList<>();
