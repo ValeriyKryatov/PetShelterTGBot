@@ -33,7 +33,7 @@ public class Constant {
                     "Ничего вводить в строку как внизу бота, так и при загрузке фото, не нужно!";
     public static final String PHOTO_IS_NOT_UPLOADED =
             "Фото не удалось загрузить! Повторите, пожалуйста, процедуру загрузки отчета!";
-    public static final String SUBMISSION_OF_THE_REPORT_CAT =
+    public static final String SUBMISSION_OF_THE_REPORT =
             "После того как новый усыновитель забрал животное из приюта, " +
                     "он обязан в течение месяца присылать информацию о том, как животное чувствует себя на новом месте. " +
                     "В ежедневный отчет входит следующая информация:\n\n" +

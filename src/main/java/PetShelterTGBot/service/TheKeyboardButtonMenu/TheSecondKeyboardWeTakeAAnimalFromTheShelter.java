@@ -20,9 +20,9 @@ public class TheSecondKeyboardWeTakeAAnimalFromTheShelter {
         list.add("Причины отказа в усыновлении");
         list.add("/reasons for abandoning a pet"+ enumAnimals.getTitle());
         list.add("Советы кинолога");
-        list.add("/dog handler advice"+ Animals.DOG.getTitle());
+        list.add("/dog handler advice"+ enumAnimals.getTitle());
         list.add("Рекомендации по проверенным кинологам");
-        list.add("/recommendations from proven dog handlers" + Animals.DOG.getTitle());
+        list.add("/recommendations from proven dog handlers" + enumAnimals.getTitle());
         list.add("Связаться с волонтером приюта ");
         list.add("/contact a volunteer" + enumAnimals.getTitle());
         list.add("Вернуться в меню назад  ");
