@@ -1,4 +1,4 @@
-package PetShelterTGBot.constant;
+package PetShelterTGBot.theEnumConstants;
 
 public class Constant {
 

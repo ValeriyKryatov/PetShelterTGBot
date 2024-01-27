@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 
-import static PetShelterTGBot.constant.Constant.GREETINGS_AT_THE_SHELTER_INFO;
+import static PetShelterTGBot.theEnumConstants.Constant.GREETINGS_AT_THE_SHELTER_INFO;
 
 @Slf4j
 @Service

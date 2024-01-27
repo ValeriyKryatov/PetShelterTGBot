@@ -3,7 +3,7 @@ package PetShelterTGBot.service;
 import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.theEnumConstants.Animals;
 
-import static PetShelterTGBot.constant.Constant.*;
+import static PetShelterTGBot.theEnumConstants.Constant.*;
 
 public class HandlerForAllKeys {
     public static void keyboardAndMenuHandler(String messageText, long chatId, TelegramBot bot) {
