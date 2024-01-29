@@ -42,7 +42,7 @@ public class HandlerForAllKeys {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, SHELTER_CAT_ADDRESS);
                         // выводим в бот фотографию
-                        bot.sendPhoto(chatId);
+                        bot.sendPhoto(chatId, Animals.CAT);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
                                 TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle()), bot));
                         break;
@@ -239,7 +239,7 @@ public class HandlerForAllKeys {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, SHELTER_DOG_ADDRESS);
                         // выводим в бот фотографию
-                        bot.sendPhoto(chatId);
+                        bot.sendPhoto(chatId, Animals.DOG);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
                                 TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle()), bot));
                         break;

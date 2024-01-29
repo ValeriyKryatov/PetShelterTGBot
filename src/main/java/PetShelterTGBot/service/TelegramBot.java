@@ -216,19 +216,21 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     /**    метод вызова и вывода фотографий в бот */
-    public void sendPhoto(Long chatId) {
+    public void sendPhoto(Long chatId, Animals en) {
         try {
             SendPhoto sendPhotoRequest = new SendPhoto();
             sendPhotoRequest.setChatId(chatId);
 //          Указываем путь к файлу изображения подключаем либо с application.properties либо напрямую
-            File image = new File(getBotThePathToTheImageFile());
+            File image = null;
+            if (Animals.CAT == en){
+             image = new File(getBotThePathToTheImageFile());
 //          File image = new File(src/main/resources/catShelter.jpg");
-//          File image2 = new File(getBotThePathToTheImageFile2());
-//          File image2 = new File(src/main/resources/dogShelter.jpg");
+            } else if (Animals.DOG == en) {
+             image = new File(getBotThePathToTheImageFile2());
+//          File image = new File(src/main/resources/dogShelter.jpg");
+            }
             InputFile inputFile = new InputFile(image);
-//          InputFile inputFile2 = new InputFile(image2);
             sendPhotoRequest.setPhoto(inputFile);
-//            sendPhotoRequest.setPhoto(inputFile2);
             this.execute(sendPhotoRequest);
         } catch (NullPointerException | TelegramApiException e) {
             e.printStackTrace();
