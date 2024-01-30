@@ -148,7 +148,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.animalsFlag = Animals.CAT;
+                        bot.userState.setAnimalsFlag(Animals.CAT);
                     }
                     break;
 
@@ -174,7 +174,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
                         bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
                         bot.enablingThe_processingWellBeingAndAddiction_method = true;
-                        bot.animalsFlag = Animals.CAT;
+                         bot.animalsFlag = Animals.CAT;
                     }
                     break;
 
@@ -361,7 +361,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.animalsFlag = Animals.DOG;
+                        bot.userState.setAnimalsFlag(Animals.DOG);
                     }
                     break;
 
