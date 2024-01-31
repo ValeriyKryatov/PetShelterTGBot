@@ -4,6 +4,7 @@ import PetShelterTGBot.model.UserState;
 import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.config.BotConfig;
 import PetShelterTGBot.theEnumConstants.Animals;
+import PetShelterTGBot.theEnumConstants.TransferOfKeyboards;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -118,7 +119,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
 //        загрузка фото для отчета
         else if (update.hasMessage() && enablingThe_processingPhotosForReport_method) {
-            String tempText = messageText.split("#")[1];
+//            String tempText = messageText.split("#")[1];
             if (update.getMessage().hasPhoto()) {
                 processingPhotosForReport(update, userState.getAnimalsFlag());
             } else {
@@ -143,14 +144,14 @@ public class TelegramBot extends TelegramLongPollingBot {
             case "/menu1": {
 //             Вызов, (отображение) клавиатуры привязанной к сообщению в чате
                 sendMessage(projectKeyboardConverter.inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                        TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.CAT),this));
+                        TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.CAT)));
             }
             break;
             case "/menu2": {
 //              Вызов, (отображение) клавиатуры привязанной к сообщению в чате
 //                sendMessage(inlineKeyboardShelterInformation2);
                 sendMessage(projectKeyboardConverter.inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                        TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.DOG),this));
+                        TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.DOG)));
             }
             break;
             case "/menu3": {
@@ -188,7 +189,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 //           выводим клавиатуру в объект SendMessage
             return projectKeyboardConverter.inLineKeyboard(userState.getChatId(),
                     "Выберете, пожалуйста, вариант из предложенного меню!",
-                    list,this);
+                    list).getSendMessage();
         } else {
 //            выводим приветственное сообщение greetingText в объект SendMessage
             sendMessage.setText(greetingText);
@@ -210,9 +211,21 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     /**    метод, выводит различные виды клавиатур, отображает их в телеграм бот */
-    public void sendMessage (SendMessage sendMessage){
+
+    public void sendMessage (SendMessage message){
         try {
-            this.execute(sendMessage);
+            this.execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
+        }
+    }
+
+    public void sendMessage (TransferOfKeyboards transferOfKeyboards){
+        SendMessage message = new SendMessage();
+        message = transferOfKeyboards.getSendMessage();
+        this.userAlreadyInteracted.put(userState.getChatId(),transferOfKeyboards.getList());
+        try {
+            this.execute(message);
         } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }
