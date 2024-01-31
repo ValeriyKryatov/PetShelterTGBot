@@ -221,9 +221,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public void sendMessage (TransferOfKeyboards transferOfKeyboards){
-        SendMessage message = new SendMessage();
-        message = transferOfKeyboards.getSendMessage();
-        this.userAlreadyInteracted.put(userState.getChatId(),transferOfKeyboards.getList());
+        SendMessage message = transferOfKeyboards.getSendMessage();
+        this.userAlreadyInteracted.put(Long.valueOf(transferOfKeyboards.getSendMessage().getChatId()),transferOfKeyboards.getList());
         try {
             this.execute(message);
         } catch (TelegramApiException e) {
