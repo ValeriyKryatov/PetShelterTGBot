@@ -1,110 +1,100 @@
 package PetShelterTGBot.model;
 
+import PetShelterTGBot.theEnumConstants.Animals;
 import jakarta.persistence.*;
+import lombok.Getter;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
-/**
- * Создаем сущность "Отчеты"
+/** Создаем сущность "Отчеты"
+ * Создаем таблицу reports(Отчеты), имеющую следующие свойства-колонки:
+ * 1) long id - id отчета, генерируемый автоматически,
+ * 2) long chatId - id пользователя,
+ * 3) String nameUser - имя, пользователя телеграм бота,
+ * 4) Date dateReport - дата составления отчета,
+ * 5) Date dateEndOfProbation - дата окончания испытательного срока,
+ * 6) int statusReport - статус отчета,
+ * 6) String reportText - содержание отчета,
+ * 7) PhotoSize photoAnimal - фото питомца, для заполнения отчета,
+ * 8) Animals animalsFlag - флаг который указывает к какому типу относится животное,
+ * 9) String animalDiet - диета и питание питомца,
+ * 10) String wellBeingAndAddiction - самочувствие питомца изменение привычек
  */
 @Entity
-/**
- * Создаем таблицу reports(Отчеты), имеющую следующие свойства-колонки:
- * 1) id - id отчета, генерируемый автоматически,
- * 2) userId - id пользователя,
- * 3) dateReport - дата составления отчета,
- * 4) statusReport - статус отчета,
- * 5) dateEndOfProbation - дата окончания испытательного срока,
- * 6) reportText - содержание отчета
- * 7) photoAnimal - фото животного
- */
 @Table(name = "reports")
 public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User userId;
-
+//    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private long chatId ;
+    @Column(name = "name_user")
+    private String nameUser;
     @Column(name = "date_report")
-    private LocalDate dateReport;
-
-    @Column(name = "status_report")
-    private String statusReport;
-
+    private Date dateReport;
     @Column(name = "date_end_of_probation")
-    private LocalDate dateEndOfProbation;
-
+    private Date dateEndOfProbation;
+    @Column(name = "status_report")
+    private int statusReport;
     @Column(name = "report_text")
     private String reportText;
-
     @Column(name = "photo_animal")
     private byte[] photoAnimal;
-
-    /**
-     * Создаем конструктор с параметрами
-     */
-    public Report(long id, User userId, LocalDate dateReport, String statusReport, LocalDate dateEndOfProbation, String reportText, byte[] photoAnimal) {
-        this.id = id;
-        this.userId = userId;
-        this.dateReport = dateReport;
-        this.statusReport = statusReport;
-        this.dateEndOfProbation = dateEndOfProbation;
-        this.reportText = reportText;
-        this.photoAnimal = photoAnimal;
-    }
-
+    @Column(name = "animals_flag")
+    String animalsFlag;
+    @Getter
+    @Column(name = "animal_diet")
+    String animalDiet;
+    @Column(name = "well_being_and_addiction")
+    String wellBeingAndAddiction;
     /**
      * Создаем конструктор без параметров
      */
     public Report() {
     }
 
-    /**
-     * Создаем методы - геттеры/сеттеры/equals/hashCode/toString
-     */
-    public long getId() {
-        return id;
+    public Long getChatId() {
+        return chatId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 
-    public User getUserId() {
-        return userId;
+    public String getNameUser() {
+        return nameUser;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
-    public LocalDate getDateReport() {
+    public Date getDateReport() {
         return dateReport;
     }
 
-    public void setDateReport(LocalDate dateReport) {
+    public void setDateReport(Date dateReport) {
         this.dateReport = dateReport;
     }
 
-    public String getStatusReport() {
-        return statusReport;
-    }
-
-    public void setStatusReport(String statusReport) {
-        this.statusReport = statusReport;
-    }
-
-    public LocalDate getDateEndOfProbation() {
+    public Date getDateEndOfProbation() {
         return dateEndOfProbation;
     }
 
-    public void setDateEndOfProbation(LocalDate dateEndOfProbation) {
+    public void setDateEndOfProbation(Date dateEndOfProbation) {
         this.dateEndOfProbation = dateEndOfProbation;
+    }
+
+    public int getStatusReport() {
+        return statusReport;
+    }
+
+    public void setStatusReport(int statusReport) {
+        this.statusReport = statusReport;
     }
 
     public String getReportText() {
@@ -115,12 +105,41 @@ public class Report {
         this.reportText = reportText;
     }
 
-    public byte[] getPhotoAnimal() {
-        return photoAnimal;
+    public PhotoSize getPhotoAnimal() {
+//        заглушка
+        return null;
     }
 
-    public void setPhotoAnimal(byte[] photoAnimal) {
-        this.photoAnimal = photoAnimal;
+    public void setPhotoAnimal(PhotoSize photoAnimal) {
+//        заглушка
+//        this.photoAnimal = photoAnimal;
+        System.out.println("Вошли ==> public class Report метод ==>  public void setPhotoAnimal(PhotoSize photoAnimal)");
+    }
+
+    public Animals getAnimalsFlag() {
+     switch (this.animalsFlag){
+         case "#cat":
+             return Animals.CAT;
+         case "#dog":
+             return Animals.DOG;
+      }
+        return null;
+    }
+
+    public void setAnimalsFlag(Animals animalsFlag) {
+        this.animalsFlag = animalsFlag.getTitle();
+     }
+
+    public void setAnimalDiet(String animalDiet) {
+        this.animalDiet = animalDiet;
+    }
+
+    public String getWellBeingAndAddiction() {
+        return wellBeingAndAddiction;
+    }
+
+    public void setWellBeingAndAddiction(String wellBeingAndAddiction) {
+        this.wellBeingAndAddiction = wellBeingAndAddiction;
     }
 
     @Override
@@ -128,26 +147,40 @@ public class Report {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
-        return id == report.id && Objects.equals(userId, report.userId) && Objects.equals(dateReport, report.dateReport) && Objects.equals(statusReport, report.statusReport) && Objects.equals(dateEndOfProbation, report.dateEndOfProbation) && Objects.equals(reportText, report.reportText) && Arrays.equals(photoAnimal, report.photoAnimal);
+        return id == report.id && statusReport == report.statusReport
+                               && Objects.equals(chatId, report.chatId)
+                               && Objects.equals(nameUser, report.nameUser)
+                               && Objects.equals(dateReport, report.dateReport)
+                               && Objects.equals(dateEndOfProbation, report.dateEndOfProbation)
+                               && Objects.equals(reportText, report.reportText)
+                               && Objects.equals(photoAnimal, report.photoAnimal)
+                               && animalsFlag == report.animalsFlag
+                               && Objects.equals(animalDiet, report.animalDiet)
+                               && Objects.equals(wellBeingAndAddiction, report.wellBeingAndAddiction);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, userId, dateReport, statusReport, dateEndOfProbation, reportText);
-        result = 31 * result + Arrays.hashCode(photoAnimal);
-        return result;
+        return Objects.hash(id, chatId, nameUser, dateReport,
+                             dateEndOfProbation, statusReport,
+                                reportText, photoAnimal, animalsFlag,
+                                    animalDiet, wellBeingAndAddiction);
     }
 
     @Override
     public String toString() {
         return "Report{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId=" + chatId +
+                ", nameUser='" + nameUser + '\'' +
                 ", dateReport=" + dateReport +
-                ", statusReport='" + statusReport + '\'' +
                 ", dateEndOfProbation=" + dateEndOfProbation +
+                ", statusReport=" + statusReport +
                 ", reportText='" + reportText + '\'' +
-                ", photoAnimal=" + Arrays.toString(photoAnimal) +
+                ", photoAnimal=" + photoAnimal +
+                ", animalsFlag=" + animalsFlag +
+                ", animalDiet='" + animalDiet + '\'' +
+                ", wellBeingAndAddiction='" + wellBeingAndAddiction + '\'' +
                 '}';
     }
 }

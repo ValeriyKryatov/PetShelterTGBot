@@ -148,7 +148,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.userState.setAnimalsFlag(Animals.CAT);
+                        bot.report.setAnimalsFlag(Animals.CAT);
                     }
                     break;
 
@@ -361,7 +361,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.userState.setAnimalsFlag(Animals.DOG);
+                        bot.report.setAnimalsFlag(Animals.DOG);
                     }
                     break;
 

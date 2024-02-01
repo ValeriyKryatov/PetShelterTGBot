@@ -13,10 +13,8 @@ import java.util.List;
 @Service
 public class ProjectKeyboardConverter  {
 //     отображение кнопок клавиатуры привязанной к сообщению в телеграм боте
-
     public TransferOfKeyboards inLineKeyboard(long chat_id, String incomingText, List<String> list) {
 
-//        bot.userAlreadyInteracted.put(chat_id,list);
         SendMessage message = new SendMessage();
         message.setChatId(chat_id);
         message.setText(incomingText);
