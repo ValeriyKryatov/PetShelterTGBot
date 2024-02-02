@@ -3,6 +3,7 @@ package PetShelterTGBot.model;
 import PetShelterTGBot.theEnumConstants.Animals;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import java.util.Date;
@@ -46,7 +47,7 @@ public class Report {
     private byte[] photoAnimal;
     @Column(name = "animals_flag")
     String animalsFlag;
-    @Getter
+
     @Column(name = "animal_diet")
     String animalDiet;
     @Column(name = "well_being_and_addiction")
@@ -110,10 +111,12 @@ public class Report {
         return null;
     }
 
-    public void setPhotoAnimal(PhotoSize photoAnimal) {
+    public void setPhotoAnimal(byte[] photoAnimal) {
 //        заглушка
-//        this.photoAnimal = photoAnimal;
-        System.out.println("Вошли ==> public class Report метод ==>  public void setPhotoAnimal(PhotoSize photoAnimal)");
+        this.photoAnimal = photoAnimal;
+        System.out.println("Вошли ==> public class Report \n " +
+                       "метод ==>  public void setPhotoAnimal(PhotoSize photoAnimal) \n" +
+                       "после ==> this.photoAnimal = photoAnimal; фото загружено в public Report()");
     }
 
     public Animals getAnimalsFlag() {
@@ -132,10 +135,6 @@ public class Report {
 
     public void setAnimalDiet(String animalDiet) {
         this.animalDiet = animalDiet;
-    }
-
-    public String getWellBeingAndAddiction() {
-        return wellBeingAndAddiction;
     }
 
     public void setWellBeingAndAddiction(String wellBeingAndAddiction) {

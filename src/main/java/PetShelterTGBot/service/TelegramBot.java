@@ -5,20 +5,32 @@ import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.config.BotConfig;
 import PetShelterTGBot.theEnumConstants.Animals;
 import PetShelterTGBot.theEnumConstants.TransferOfKeyboards;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.File;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
 import static PetShelterTGBot.theEnumConstants.Constant.GREETINGS_AT_THE_SHELTER_INFO;
+import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Slf4j
 @Service
@@ -121,7 +133,13 @@ public class TelegramBot extends TelegramLongPollingBot {
         else if (update.hasMessage() && enablingThe_processingPhotosForReport_method) {
 //            String tempText = messageText.split("#")[1];
             if (update.getMessage().hasPhoto()) {
-                processingPhotosForReport(update, report.getAnimalsFlag());
+                try {
+                    processingPhotosForReport(update, report.getAnimalsFlag());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
                 messageText = "/animal not photo" + report.getAnimalsFlag().getTitle();
             }
@@ -239,10 +257,10 @@ public class TelegramBot extends TelegramLongPollingBot {
             File image = null;
             if (Animals.CAT == en){
              image = new File(getBotThePathToTheImageFile());
-//          File image = new File(src/main/resources/catShelter.jpg");
+//          File image = new File("src/main/resources/catShelter.jpg");
             } else if (Animals.DOG == en) {
              image = new File(getBotThePathToTheImageFile2());
-//          File image = new File(src/main/resources/dogShelter.jpg");
+//          File image = new File("src/main/resources/dogShelter.jpg");
             }
             InputFile inputFile = new InputFile(image);
             sendPhotoRequest.setPhoto(inputFile);
@@ -252,10 +270,53 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
     /**    обработка присланного фото для заполнения отчета от усыновителя */
-    public void processingPhotosForReport(Update update, Animals animals) {
-        int size = update.getMessage().getPhoto().size();
-        report.setPhotoAnimal(update.getMessage().getPhoto().get(size - 1));
-        System.out.println(" вошли в метод  ==>   public void processingPhotosForReport(Update update, Animals animals) " + size);
+    @Transactional
+    public void processingPhotosForReport(Update update, Animals animals) throws IOException, TelegramApiException {
+        List<PhotoSize> photos = update.getMessage().getPhoto();
+        int count = 1;
+        for (PhotoSize photo : photos)
+        {
+            GetFile getFile = new GetFile(photo.getFileId());
+            try
+            {
+                org.telegram.telegrambots.meta.api.objects.File file = this.execute(getFile); //tg file obj
+                this.downloadFile(file, new java.io.File("photos/photo" + count + ".png"));
+                count++;
+            } catch (TelegramApiException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+//        int size = update.getMessage().getPhoto().size();
+//        PhotoSize photo = update.getMessage().getPhoto().get(size - 2);
+//        if (photo.getFileSize() > 1024 * 500) {
+////            обработка если файл больше размером
+//            System.out.println(" загружаемый файл больше размера > 1024 * 500 " + photo.getFileSize());
+//        }
+//        GetFile getFile = new GetFile(photo.getFileId());
+//        String s = "";
+//        File file = getFile.deserializeResponse(s);
+
+
+
+//        try (InputStream is = file.toURL().openStream();
+//             BufferedInputStream bis = new BufferedInputStream(is, 1000);
+//             ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+//             BufferedImage image = ImageIO.read(bis);
+//
+//            int height = image.getHeight() / (image.getWidth() / 100);
+//            BufferedImage preview = new BufferedImage(100, height, image.getType());
+//            Graphics2D graphics = preview.createGraphics();
+//            graphics.drawImage(image, 0, 0, 100, height, null);
+//            graphics.dispose();
+//
+//            ImageIO.write(preview, getExtension(file.getName().toString()), baos);
+//            byte[] photoByteArray = baos.toByteArray();
+//
+//        report.setPhotoAnimal(photoByteArray);
+//        }
         messageText = "/animal diet" + animals.getTitle();
     }
 }
