@@ -14,8 +14,10 @@ public class BotConfig {
     private String botName;
     @Value("${bot.token}")
     private String token;
-    @Value("${bot.hetPathToTheImageFile}")
-    private String thePathToTheImageFile;
-    @Value("src/main/resources/dogShelter.jpg")
-    private String thePathToTheImageFile2;
+    @Value("${bot.hetPathToTheImageFileCat}")
+    private String thePathToTheImageFileCat;
+    @Value("${bot.hetPathToTheImageFileDog}")
+    private String thePathToTheImageFileDog;
+    @Value("${bot.wayToStoreTemporaryPhotos}")
+    private String wayToStoreTemporaryPhotos;
 }

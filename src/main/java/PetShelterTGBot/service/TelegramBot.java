@@ -1,15 +1,13 @@
 package PetShelterTGBot.service;
 
+import lombok.extern.slf4j.Slf4j;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import PetShelterTGBot.model.Report;
-import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.config.BotConfig;
 import PetShelterTGBot.theEnumConstants.Animals;
+import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.theEnumConstants.TransferOfKeyboards;
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -19,10 +17,6 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,33 +24,46 @@ import java.util.*;
 import java.util.List;
 
 import static PetShelterTGBot.theEnumConstants.Constant.GREETINGS_AT_THE_SHELTER_INFO;
-import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Slf4j
 @Service
 public class TelegramBot extends TelegramLongPollingBot {
 
-    /** Переменные разрешающие запись отчета о животном взятым с приюта */
+    /**
+     * Переменные разрешающие запись отчета о животном взятым с приюта
+     */
     boolean enablingThe_processingAnimalDiet_method = false;
     boolean enablingThe_processingPhotosForReport_method = false;
     boolean enablingThe_processingWellBeingAndAddiction_method = false;
     Animals animalsFlag;
 
-    /**   объект с параметрами нужный для заполнения отчета и отправки сообщений волонтерам */
+    /**
+     * объект с параметрами нужный для заполнения отчета и отправки сообщений волонтерам
+     */
     public Report report = new Report();
 
-    /**   текстовые сообщения, которые запускают те или иные обработчики */
+    /**
+     * текстовые сообщения, которые запускают те или иные обработчики
+     */
     String messageText;
-    /**    данный Map, запоминает параметрами, нужными для заполнения отчета и отправки сообщений волонтерам  */
+    /**
+     * данный Map, запоминает параметрами, нужными для заполнения отчета и отправки сообщений волонтерам
+     */
     final Map<Long, Report> variablesForReportingAndMessagesToVolunteers = new HashMap<>();
 
-    /**    данный Map, запоминает chatId пользователя и клавиатуру, где он находится в текущий момент */
+    /**
+     * данный Map, запоминает chatId пользователя и клавиатуру, где он находится в текущий момент
+     */
     final Map<Long, List<String>> userAlreadyInteracted = new HashMap<>();
 
-    /**    данный Set, запоминает, какие клавиатуры, проходил пользователь и подставляет их в обработку кнопок */
+    /**
+     * данный Set, запоминает, какие клавиатуры, проходил пользователь и подставляет их в обработку кнопок
+     */
     private final BotConfig botConfig;
 
-    /** активируем конвертор клавиатуры */
+    /**
+     * активируем конвертор клавиатуры
+     */
     ProjectKeyboardConverter projectKeyboardConverter;
 
     public TelegramBot(BotConfig botConfig,
@@ -67,28 +74,38 @@ public class TelegramBot extends TelegramLongPollingBot {
 //   создание кнопки Меню в левом углу командной строки бота
         MainMenu.mainMenuButton(this);
     }
+
     @Override
     public String getBotUsername() {
         return botConfig.getBotName();
     }
+
     @Override
     public String getBotToken() {
         return botConfig.getToken();
     }
 
-    public String getBotThePathToTheImageFile() {
-        return botConfig.getThePathToTheImageFile();
+    private String getBotThePathToTheImageFileCat() {
+        return botConfig.getThePathToTheImageFileCat();
     }
-    public String getBotThePathToTheImageFile2() {
-        return botConfig.getThePathToTheImageFile2();
+
+    private String getBotThePathToTheImageFileDog() {
+        return botConfig.getThePathToTheImageFileDog();
+    }
+
+    private String getWayToStoreTemporaryPhotos() {
+        return botConfig.getWayToStoreTemporaryPhotos();
     }
 
     public ProjectKeyboardConverter getProjectKeyboardConverter() {
-        return projectKeyboardConverter;}
+        return projectKeyboardConverter;
+    }
 
-    /** самый главный метод, который принимает "сообщения" (объекты) присланные с телеграмм бота,
-     выделяет нужные нам поля из данных (присланных) объектов и передает эти поля
-     в (actionSelectorFromUpdate(String text, long chatId)) для дальнейшей обработки */
+    /**
+     * самый главный метод, который принимает "сообщения" (объекты) присланные с телеграмм бота,
+     * выделяет нужные нам поля из данных (присланных) объектов и передает эти поля
+     * в (actionSelectorFromUpdate(String text, long chatId)) для дальнейшей обработки
+     */
     @Override
     public void onUpdateReceived(Update update) {
         System.out.println("  Вошли в метод ==> onUpdateReceived(Update update) ");
@@ -98,19 +115,19 @@ public class TelegramBot extends TelegramLongPollingBot {
             report.setNameUser(update.getMessage().getChat().getFirstName());
             messageText = update.getMessage().getText();
 //              загрузка в отчет диеты питомца
-            if (enablingThe_processingAnimalDiet_method){
+            if (enablingThe_processingAnimalDiet_method) {
                 report.setAnimalDiet(messageText);
                 enablingThe_processingAnimalDiet_method = false;
                 messageText = "/well-being and addiction" + report.getAnimalsFlag().getTitle();
             }
 //              загрузка в отчет самочувствия и привыкания к новому месту изменение привычек
-            if (enablingThe_processingWellBeingAndAddiction_method){
+            if (enablingThe_processingWellBeingAndAddiction_method) {
                 report.setWellBeingAndAddiction(messageText);
 
 //                создать переменные о времени и заполнить их в userState
                 Date date = new Date();
 
-                variablesForReportingAndMessagesToVolunteers.put(report.getChatId(),report);
+                variablesForReportingAndMessagesToVolunteers.put(report.getChatId(), report);
 
 //               здесь должен (Написать КОД) вызваться метод записи, параметров отчета о питомце в базу данных
 
@@ -122,24 +139,19 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.out.println("  Определили имя пользователя бота в update.getMessage().hasText() ==> " + report.getNameUser());
             System.out.println("  Определили chatId для бота update.getMessage().getChatId()  ==> " + report.getChatId());
             System.out.println("  Этот текст, пришел от бота update.getMessage().getText() ==> " + messageText);
-        }
-        else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             messageText = update.getCallbackQuery().getData();
             System.out.println("  Этот текст, пришел от бота в update.getCallbackQuery().getData() ==> " + messageText);
-            actionSelectorFromUpdate(messageText,report.getChatId());
-            System.out.println("  Выход обработался метод ==> onUpdateReceived(Update update) ==>  " + messageText );
+            actionSelectorFromUpdate(messageText, report.getChatId());
+            System.out.println("  Выход обработался метод ==> onUpdateReceived(Update update) ==>  " + messageText);
         }
 //        загрузка фото для отчета
         else if (update.hasMessage() && enablingThe_processingPhotosForReport_method) {
 //            String tempText = messageText.split("#")[1];
             if (update.getMessage().hasPhoto()) {
-                try {
-                    processingPhotosForReport(update, report.getAnimalsFlag());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
-                }
+                processingPhotosForReport(update, report.getAnimalsFlag());
+
+
             } else {
                 messageText = "/animal not photo" + report.getAnimalsFlag().getTitle();
             }
@@ -148,9 +160,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    /**    метод обработки сообщений (полей) из главного Меню, от метода -> onUpdateReceived(Update update),
-     *     выбирает (в зависимости от пункта) и выводит в бот, следующую клавиатуру   */
-    public void actionSelectorFromUpdate(String text, long chatId){
+    /**
+     * метод обработки сообщений (полей) из главного Меню, от метода -> onUpdateReceived(Update update),
+     * выбирает (в зависимости от пункта) и выводит в бот, следующую клавиатуру
+     */
+    public void actionSelectorFromUpdate(String text, long chatId) {
         System.out.println(" Вошли в метод ==>  actionSelectorFromUpdate ==>" + text);
         switch (text) {
             case "/start":
@@ -178,12 +192,14 @@ public class TelegramBot extends TelegramLongPollingBot {
             break;
         }
 //        запускаем обработчик кнопок клавиатур
-        HandlerForAllKeys.keyboardAndMenuHandler(text, chatId,this);
+        HandlerForAllKeys.keyboardAndMenuHandler(text, chatId, this);
 
         System.out.println(" Выход обработался метод ==>  actionSelectorFromUpdate(String text, long chatId) ==>" + text);
     }
 
-    /**   метод приветствие при запуске бота, составляет и возвращает строку приветствия */
+    /**
+     * метод приветствие при запуске бота, составляет и возвращает строку приветствия
+     */
     private String startStringReceived(String name) {
         String answer = " Мы рады Вас - " + name + ", видеть в нашем телеграмм боте ! \n "
                 + "       Этот Бот является приютом для животных ! \n      Вы можете выбрать и усыновить животное, \n "
@@ -193,15 +209,17 @@ public class TelegramBot extends TelegramLongPollingBot {
         return answer;
     }
 
-    /** метод проверяет пользователя пришел ли он впервые, или заходил ранее, наш пользователь ранее,
-     в телеграм бот, если он бывал ранее, то вызываем последнюю клавиатуру, которой он пользовался,
-     если он впервые, то приветствуем его сообщением из метода -> startStringReceived(String name) */
-    private SendMessage userLogsInForTheFirstTime (String greetingText) {
+    /**
+     * метод проверяет пользователя пришел ли он впервые, или заходил ранее, наш пользователь ранее,
+     * в телеграм бот, если он бывал ранее, то вызываем последнюю клавиатуру, которой он пользовался,
+     * если он впервые, то приветствуем его сообщением из метода -> startStringReceived(String name)
+     */
+    private SendMessage userLogsInForTheFirstTime(String greetingText) {
         SendMessage sendMessage = new SendMessage();
 //     Метод проверяет, был ли пользователь ранее в боте, используя
 //     проверку наличия, ранее записанного при посещении бота chatId пользователя
 //     в ->  Map<Long, List<String>> userAlreadyInteracted
-        if (userAlreadyInteracted.containsKey(report.getChatId())){
+        if (userAlreadyInteracted.containsKey(report.getChatId())) {
 //      далее выясняем на какой клавиатуре пользователь покинул бота
             List list = userAlreadyInteracted.get(report.getChatId());
 //           выводим клавиатуру в объект SendMessage
@@ -216,7 +234,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    /**    метод выводит, простое, текстовое сообщения в телеграм бот */
+    /**
+     * метод выводит, простое, текстовое сообщения в телеграм бот
+     */
     public void sendMessage(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
@@ -228,9 +248,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    /**    метод, выводит различные виды клавиатур, отображает их в телеграм бот */
+    /**
+     * метод, выводит различные виды клавиатур, отображает их в телеграм бот
+     */
 
-    public void sendMessage (SendMessage message){
+    public void sendMessage(SendMessage message) {
         try {
             this.execute(message);
         } catch (TelegramApiException e) {
@@ -238,9 +260,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage (TransferOfKeyboards transferOfKeyboards){
+    public void sendMessage(TransferOfKeyboards transferOfKeyboards) {
         SendMessage message = transferOfKeyboards.getSendMessage();
-        this.userAlreadyInteracted.put(Long.valueOf(transferOfKeyboards.getSendMessage().getChatId()),transferOfKeyboards.getList());
+        this.userAlreadyInteracted.put(Long.valueOf(transferOfKeyboards.getSendMessage().getChatId()), transferOfKeyboards.getList());
         try {
             this.execute(message);
         } catch (TelegramApiException e) {
@@ -248,18 +270,20 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    /**    метод вызова и вывода фотографий карты (картинка) с адресом в бот */
+    /**
+     * метод вызова и вывода фотографий карты (картинка) с адресом в бот
+     */
     public void sendPhoto(Long chatId, Animals en) {
         try {
             SendPhoto sendPhotoRequest = new SendPhoto();
             sendPhotoRequest.setChatId(chatId);
 //          Указываем путь к файлу изображения подключаем либо с application.properties либо напрямую
             File image = null;
-            if (Animals.CAT == en){
-             image = new File(getBotThePathToTheImageFile());
+            if (Animals.CAT == en) {
+                image = new File(this.getBotThePathToTheImageFileCat());
 //          File image = new File("src/main/resources/catShelter.jpg");
             } else if (Animals.DOG == en) {
-             image = new File(getBotThePathToTheImageFile2());
+                image = new File(this.getBotThePathToTheImageFileDog());
 //          File image = new File("src/main/resources/dogShelter.jpg");
             }
             InputFile inputFile = new InputFile(image);
@@ -269,54 +293,57 @@ public class TelegramBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-    /**    обработка присланного фото для заполнения отчета от усыновителя */
+
+    /**
+     * обработка присланного фото для заполнения отчета от усыновителя
+     */
     @Transactional
-    public void processingPhotosForReport(Update update, Animals animals) throws IOException, TelegramApiException {
-        List<PhotoSize> photos = update.getMessage().getPhoto();
-        int count = 1;
-        for (PhotoSize photo : photos)
-        {
+    public void processingPhotosForReport(Update update, Animals animals) {
+        try {
+            String filePathPhoto = this.getWayToStoreTemporaryPhotos();
+            org.telegram.telegrambots.meta.api.objects.File file = null;
+            PhotoSize photo = update.getMessage().getPhoto().get(2);
             GetFile getFile = new GetFile(photo.getFileId());
-            try
-            {
-                org.telegram.telegrambots.meta.api.objects.File file = this.execute(getFile); //tg file obj
-                this.downloadFile(file, new java.io.File("photos/photo" + count + ".png"));
-                count++;
-            } catch (TelegramApiException e)
-            {
-                e.printStackTrace();
+
+            file = this.execute(getFile);
+            this.downloadFile(file, new java.io.File(filePathPhoto));
+
+            File fileN = new File(filePathPhoto);
+            byte[] bytes = new byte[(int) fileN.length()];
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(fileN);
+                fis.read(bytes);
+            } finally {
+                if (fis != null) {
+                    fis.close();
+                }
             }
+
+// ************************************************************************************
+//            file.setFilePath(filePathPhoto);
+//            byte b;
+//            byte[] byteArr;
+//            FileInputStream fis = new FileInputStream(filePathPhoto);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//
+//            while ((b = (byte) fis.read()) != -1) {
+//                baos.write(b);
+//            }
+//            byteArr = baos.toByteArray();
+//            fis.close();
+//            baos.close();
+// ************************************************************************************
+            report.setPhotoAnimal(bytes);
+            Files.delete(Path.of(filePathPhoto));
+
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+
+            messageText = "/animal diet" + animals.getTitle();
         }
-
-
-//        int size = update.getMessage().getPhoto().size();
-//        PhotoSize photo = update.getMessage().getPhoto().get(size - 2);
-//        if (photo.getFileSize() > 1024 * 500) {
-////            обработка если файл больше размером
-//            System.out.println(" загружаемый файл больше размера > 1024 * 500 " + photo.getFileSize());
-//        }
-//        GetFile getFile = new GetFile(photo.getFileId());
-//        String s = "";
-//        File file = getFile.deserializeResponse(s);
-
-
-
-//        try (InputStream is = file.toURL().openStream();
-//             BufferedInputStream bis = new BufferedInputStream(is, 1000);
-//             ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-//             BufferedImage image = ImageIO.read(bis);
-//
-//            int height = image.getHeight() / (image.getWidth() / 100);
-//            BufferedImage preview = new BufferedImage(100, height, image.getType());
-//            Graphics2D graphics = preview.createGraphics();
-//            graphics.drawImage(image, 0, 0, 100, height, null);
-//            graphics.dispose();
-//
-//            ImageIO.write(preview, getExtension(file.getName().toString()), baos);
-//            byte[] photoByteArray = baos.toByteArray();
-//
-//        report.setPhotoAnimal(photoByteArray);
-//        }
-        messageText = "/animal diet" + animals.getTitle();
     }
 }
