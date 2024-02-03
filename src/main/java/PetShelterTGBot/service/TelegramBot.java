@@ -1,5 +1,6 @@
 package PetShelterTGBot.service;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -51,6 +52,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
 
     /** активируем конвертор клавиатуры */
+    @Getter
     ProjectKeyboardConverter projectKeyboardConverter;
     private InputFile inputFile;
 
@@ -68,8 +70,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
     @Override
     public String getBotToken() { return botConfig.getToken(); }
-
-    public ProjectKeyboardConverter getProjectKeyboardConverter(){ return projectKeyboardConverter;}
 
     @Override
     public void onUpdateReceived(Update update) {
