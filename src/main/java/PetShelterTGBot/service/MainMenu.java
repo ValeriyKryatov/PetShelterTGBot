@@ -15,7 +15,6 @@ import java.util.List;
 public class MainMenu {
     public static void mainMenuButton (TelegramBot bot) {
         List<BotCommand> listofCommands = new ArrayList<>();
-        listofCommands.add(new BotCommand("/start", "Приветствие"));
         listofCommands.add(new BotCommand("/menu1", "Приют для кошек"));
         listofCommands.add(new BotCommand("/menu2", "Приют для собак"));
 
