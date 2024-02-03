@@ -41,7 +41,7 @@ public class HandlerForAllKeys {
 
                     case "/shelter address":
                         // обработчик при этом условии
-                        bot.sendMessage(chatId, "город Волгоград, ул. Бахтурова, дом 12Г ");
+                        bot.sendMessage(chatId, "город Москва, ул. Осташковская, дом 14с2 ");
                         // выводим в бот фотографию
                         bot.sendPhoto(chatId);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
@@ -52,7 +52,7 @@ public class HandlerForAllKeys {
                     case "/car pass": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, "Чтобы оформить пропуск для автомобиля, свяжитесь с охраной кошачьего приюта:\n" +
-                                "Телефон охраны: +7 (717) 111-CATS (2288)");
+                                "Телефон охраны: +7 495 135-51-03");
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                             "Выберете пожалуйста, этот пункт, что бы вернуться, обратно в меню!",
@@ -82,8 +82,7 @@ public class HandlerForAllKeys {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
                                 "нужно заполнить анкету:\n" +
-                                "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n" +
-                                "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
+                                "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n");
                     }
                     break;
 
@@ -290,7 +289,7 @@ public class HandlerForAllKeys {
                     case "/contact a volunteer": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, "Связаться с волонтером нужно написать сообщение сюда, предоставить свои координаты для связи " +
-                                "НАПИСАТЬ ОБРАБОТЧИК и ВАЛИДАЦИЮ");
+                                "написать обработчик и валидацию");
                     }
                     break;
 
@@ -353,7 +352,7 @@ public class HandlerForAllKeys {
 
                             case "/shelter address":
                                 // обработчик при этом условии
-                                bot.sendMessage(chatId, "город Волгоград, ул. Бахтурова, дом 12Г ");
+                                bot.sendMessage(chatId, "город Москва, ул. Р.Зорге, вл 24 ");
                                 // выводим в бот фотографию
                                 bot.sendPhoto(chatId);
                                 bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
@@ -364,7 +363,7 @@ public class HandlerForAllKeys {
                             case "/car pass": {
                                 // обработчик при этом условии
                                 bot.sendMessage(chatId, "Чтобы оформить пропуск для автомобиля, свяжитесь с охраной кошачьего приюта:\n" +
-                                        "Телефон охраны: +7 (717) 111-DOGS (2288)");
+                                        "Телефон охраны: +7 916 794-22-97");
                             }
                             bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                     "Выберете пожалуйста, этот пункт, что бы вернуться, обратно в меню!",
@@ -394,8 +393,7 @@ public class HandlerForAllKeys {
                                 // обработчик при этом условии
                                 bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
                                         "нужно заполнить анкету:\n" +
-                                        "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n" +
-                                        "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
+                                        "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n");
                             }
                             break;
 
