@@ -1,12 +1,12 @@
-package PetShelterTGBot.theEnumConstants;
+package PetShelterTGBot.constant;
 
-public enum Animals {
+public enum PetType {
     DOG("#dog"),
     CAT("#cat");
 
-    private String title;
+    private final String title;
 
-    Animals(String title) {
+    PetType(String title) {
         this.title = title;
     }
 

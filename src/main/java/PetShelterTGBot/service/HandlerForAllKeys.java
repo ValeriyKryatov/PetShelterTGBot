@@ -1,9 +1,9 @@
 package PetShelterTGBot.service;
 
+import PetShelterTGBot.constant.PetType;
 import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
-import PetShelterTGBot.theEnumConstants.Animals;
 
-import static PetShelterTGBot.constant.Constant.*;
+import static PetShelterTGBot.constant.MessageConstant.*;
 
 public class HandlerForAllKeys {
     public static void keyboardAndMenuHandler(String messageText, long chatId, TelegramBot bot) {
@@ -21,20 +21,20 @@ public class HandlerForAllKeys {
                     case "/information about the shelter":
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(Animals.CAT), bot));
+                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(PetType.CAT), bot));
                         break;
 
                     case "/how to take a pet from a shelter": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.CAT), bot));
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(PetType.CAT), bot));
                     }
                     break;
 
                     case "/send a pet report": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(Animals.CAT), bot));
+                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(PetType.CAT), bot));
                     }
                     break;
 
@@ -44,7 +44,7 @@ public class HandlerForAllKeys {
                         // выводим в бот фотографию
                         bot.sendPhoto(chatId);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.CAT.getTitle()), bot));
                         break;
 
                     case "/car pass": {
@@ -52,7 +52,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, REGISTRATION_OF_A_CAR_PASS_CAT_SHELTER);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/safety precautions": {
@@ -60,7 +60,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, SAFETY_PRECAUTIONS_CAT_SHELTER);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/visit to the shelter": {
@@ -71,13 +71,13 @@ public class HandlerForAllKeys {
                                 "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/rules for getting to know a pet":
                         bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_CAT_SHELTER);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.CAT.getTitle()), bot));
                         break;
 
                     case "/documents for registration of guardianship": {
@@ -85,7 +85,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, BASIC_TERMS);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/pet transportation": {
@@ -93,13 +93,13 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, PET_DELIVERY);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/arrangement of pet accommodation": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.CAT), bot));
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(PetType.CAT), bot));
                     }
                     break;
 
@@ -108,14 +108,14 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, REASONS_FOR_REFUSAL_TO_ADOPTION);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/animal":
                         // обработчик при этом условии
                         bot.sendMessage(chatId, PREPARING_THE_HOUSE_FOR_THE_ARRIVAL_OF_AN_CAT);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.CAT.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + PetType.CAT.getTitle()), bot));
                         break;
 
                     case "/an adult animal": {
@@ -123,7 +123,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, PREPARING_CONDITIONS_FOR_THE_ARRIVAL_OF_AN_CAT);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.CAT.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + PetType.CAT.getTitle()), bot));
                     break;
 
                     case "/a animal with disabilities": {
@@ -136,7 +136,7 @@ public class HandlerForAllKeys {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, SUBMISSION_OF_THE_REPORT);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.CAT.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/send a pet report" + PetType.CAT.getTitle()), bot));
 
                     }
                     break;
@@ -148,14 +148,14 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.animalsFlag = Animals.CAT;
+                        bot.petTypeFlag = PetType.CAT;
                     }
                     break;
 
                     case "/animal not photo": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, PHOTO_IS_NOT_UPLOADED,
-                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.CAT.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/send a pet report" + PetType.CAT.getTitle()), bot));
                     }
                     break;
 
@@ -165,7 +165,7 @@ public class HandlerForAllKeys {
                                 "Ни чего вводить в строку как внизу бота, так и при загрузке фото, не нужно ! ");
                         bot.sendMessage(chatId, " Запишите рацион животного, чем Вы его кормили ");
                         bot.enablingThe_processingAnimalDiet_method = true;
-                        bot.animalsFlag = Animals.CAT;
+                        bot.petTypeFlag = PetType.CAT;
                     }
                     break;
 
@@ -174,7 +174,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
                         bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
                         bot.enablingThe_processingWellBeingAndAddiction_method = true;
-                        bot.animalsFlag = Animals.CAT;
+                        bot.petTypeFlag = PetType.CAT;
                     }
                     break;
 
@@ -198,7 +198,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                 GREETINGS_AT_THE_SHELTER_INFO,
-                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.CAT), bot));
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(PetType.CAT), bot));
                     }
                     break;
                     case "/come back3": {
@@ -206,7 +206,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                 GREETINGS_AT_THE_SHELTER_INFO,
-                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.CAT), bot)); // переходим в предыдущее меню
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(PetType.CAT), bot)); // переходим в предыдущее меню
 
                     }
                     break;
@@ -219,19 +219,19 @@ public class HandlerForAllKeys {
                     case "/information about the shelter":
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(Animals.DOG), bot));
+                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(PetType.DOG), bot));
                         break;
                     case "/how to take a pet from a shelter": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.DOG), bot));
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(PetType.DOG), bot));
                     }
                     break;
 
                     case "/send a pet report": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(Animals.DOG), bot));
+                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(PetType.DOG), bot));
                     }
                     break;
 
@@ -241,7 +241,7 @@ public class HandlerForAllKeys {
                         // выводим в бот фотографию
                         bot.sendPhoto(chatId);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.DOG.getTitle()), bot));
                         break;
 
                     case "/car pass": {
@@ -249,7 +249,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, REGISTRATION_OF_A_CAR_PASS_DOG_SHELTER);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/safety precautions": {
@@ -257,7 +257,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, SAFETY_PRECAUTIONS_DOG_SHELTER);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/visit to the shelter": {
@@ -268,13 +268,13 @@ public class HandlerForAllKeys {
                                 "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/rules for getting to know a pet":
                         bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_DOG_SHELTER);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                         break;
 
                     case "/documents for registration of guardianship": {
@@ -282,7 +282,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, BASIC_TERMS);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/pet transportation": {
@@ -290,13 +290,13 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, PET_DELIVERY);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/arrangement of pet accommodation": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
-                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.DOG), bot));
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(PetType.DOG), bot));
                     }
                     break;
 
@@ -305,7 +305,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, REASONS_FOR_REFUSAL_TO_ADOPTION);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/dog handler advice": {
@@ -313,7 +313,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, DOG_HANDLER_ADVICE);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/recommendations from proven dog handlers": {
@@ -321,21 +321,21 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, RECOMMENDATIONS_FROM_PROVEN_DOG_HANDLERS);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/animal":
                         // обработчик при этом условии
                         bot.sendMessage(chatId, PREPARING_THE_HOUSE_FOR_THE_ARRIVAL_OF_AN_DOG);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.DOG.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + PetType.DOG.getTitle()), bot));
                         break;
                     case "/an adult animal": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, PREPARING_CONDITIONS_FOR_THE_ARRIVAL_OF_AN_DOG);
                     }
                     bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.DOG.getTitle()), bot));
+                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + PetType.DOG.getTitle()), bot));
                     break;
 
                     case "/a animal with disabilities": {
@@ -349,7 +349,7 @@ public class HandlerForAllKeys {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, SUBMISSION_OF_THE_REPORT);
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.DOG.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/send a pet report" + PetType.DOG.getTitle()), bot));
 
                     }
                     break;
@@ -361,14 +361,14 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.animalsFlag = Animals.DOG;
+                        bot.petTypeFlag = PetType.DOG;
                     }
                     break;
 
                     case "/animal not photo": {
                         // обработчик при этом условии
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, PHOTO_IS_NOT_UPLOADED,
-                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.DOG.getTitle()), bot));
+                                TheReturnToKeyboardButton.getList("/send a pet report" + PetType.DOG.getTitle()), bot));
                     }
                     break;
 
@@ -378,7 +378,7 @@ public class HandlerForAllKeys {
                                 "Ни чего вводить в строку как внизу бота, так и при загрузке фото, не нужно ! ");
                         bot.sendMessage(chatId, " Запишите рацион животного, чем Вы его кормили ");
                         bot.enablingThe_processingAnimalDiet_method = true;
-                        bot.animalsFlag = Animals.DOG;
+                        bot.petTypeFlag = PetType.DOG;
                     }
                     break;
 
@@ -387,7 +387,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
                         bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
                         bot.enablingThe_processingWellBeingAndAddiction_method = true;
-                        bot.animalsFlag = Animals.DOG;
+                        bot.petTypeFlag = PetType.DOG;
                     }
                     break;
 
@@ -411,7 +411,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                 GREETINGS_AT_THE_SHELTER_INFO,
-                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.DOG), bot));
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(PetType.DOG), bot));
                     }
                     break;
                     case "/come back3": {
@@ -419,7 +419,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                 GREETINGS_AT_THE_SHELTER_INFO,
-                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.DOG), bot)); // переходим в предыдущее меню
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(PetType.DOG), bot)); // переходим в предыдущее меню
 
                     }
                     break;

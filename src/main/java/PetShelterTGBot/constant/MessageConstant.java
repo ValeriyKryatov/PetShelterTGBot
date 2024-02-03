@@ -1,6 +1,6 @@
 package PetShelterTGBot.constant;
 
-public class Constant {
+public class MessageConstant {
 
     /**
      * Константы для общих текстовых сообщений
