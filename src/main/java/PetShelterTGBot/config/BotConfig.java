@@ -18,6 +18,6 @@ public class BotConfig {
     private String thePathToTheImageFileCat;
     @Value("${bot.hetPathToTheImageFileDog}")
     private String thePathToTheImageFileDog;
-    @Value("${bot.wayToStoreTemporaryPhotos}")
-    private String wayToStoreTemporaryPhotos;
+//    @Value("${bot.wayToStoreTemporaryPhotos}")
+//    private String wayToStoreTemporaryPhotos;
 }

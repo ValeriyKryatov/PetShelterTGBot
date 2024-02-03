@@ -1,12 +1,13 @@
 package PetShelterTGBot.service;
 
+import PetShelterTGBot.model.Report;
 import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
 import PetShelterTGBot.theEnumConstants.Animals;
 
 import static PetShelterTGBot.theEnumConstants.Constant.*;
 
 public class HandlerForAllKeys {
-    public static void keyboardAndMenuHandler(String messageText, long chatId, TelegramBot bot) {
+    public static void keyboardAndMenuHandler(String messageText, long chatId, TelegramBot bot, Report report) {
         String textOne = "";
         String textTwo = "";
         if (messageText != null && messageText.contains("#")) {
@@ -148,7 +149,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.report.setAnimalsFlag(Animals.CAT);
+                        report.setAnimalsFlag(Animals.CAT);
                     }
                     break;
 
@@ -188,7 +189,7 @@ public class HandlerForAllKeys {
                     case "/come back": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
-                        bot.actionSelectorFromUpdate("/menu1", chatId); // переходим в предыдущее меню
+                        bot.actionSelectorFromUpdate("/menu1", chatId, report); // переходим в предыдущее меню
 
                     }
                     break;
@@ -361,7 +362,7 @@ public class HandlerForAllKeys {
 //                                GREETINGS_AT_THE_SHELTER_INFO,
 //                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
                         bot.enablingThe_processingPhotosForReport_method = true;
-                        bot.report.setAnimalsFlag(Animals.DOG);
+                        report.setAnimalsFlag(Animals.DOG);
                     }
                     break;
 
@@ -401,7 +402,7 @@ public class HandlerForAllKeys {
                     case "/come back": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
-                        bot.actionSelectorFromUpdate("/menu1", chatId); // переходим в предыдущее меню
+                        bot.actionSelectorFromUpdate("/menu1", chatId, report); // переходим в предыдущее меню
 
                     }
                     break;
