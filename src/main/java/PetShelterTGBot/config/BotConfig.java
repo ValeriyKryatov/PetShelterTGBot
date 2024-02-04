@@ -18,6 +18,9 @@ public class BotConfig {
     private String thePathToTheImageFileCat;
     @Value("${bot.hetPathToTheImageFileDog}")
     private String thePathToTheImageFileDog;
+    @Value("${bot.specifiedTime_30_daysInMilliseconds}")
+    private Long probationaryPeriod;
+
 //    @Value("${bot.wayToStoreTemporaryPhotos}")
 //    private String wayToStoreTemporaryPhotos;
 }

@@ -207,7 +207,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Переходим в предыдущее меню");
                         bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
                                 GREETINGS_AT_THE_SHELTER_INFO,
-                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.CAT))); // переходим в предыдущее меню
+                                TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.CAT))); // переходим в предыдущее меню
 
                     }
                     break;

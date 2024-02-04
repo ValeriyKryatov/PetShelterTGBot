@@ -3,8 +3,7 @@ package PetShelterTGBot.model;
 import PetShelterTGBot.theEnumConstants.Animals;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
-import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+
 
 import java.util.Date;
 import java.util.Objects;
@@ -106,13 +105,19 @@ public class Report {
         this.reportText = reportText;
     }
 
-    public PhotoSize getPhotoAnimal() {
-//        заглушка
-        return null;
+    public String getAnimalDiet() {
+        return animalDiet;
+    }
+
+    public String getWellBeingAndAddiction() {
+        return wellBeingAndAddiction;
+    }
+
+    public byte[] getPhotoAnimal() {
+        return this.photoAnimal;
     }
 
     public void setPhotoAnimal(byte[] photoAnimal) {
-//        заглушка
         this.photoAnimal = photoAnimal;
         System.out.println("Вошли ==> public class Report \n " +
                        "метод ==>  public void setPhotoAnimal(PhotoSize photoAnimal) \n" +
