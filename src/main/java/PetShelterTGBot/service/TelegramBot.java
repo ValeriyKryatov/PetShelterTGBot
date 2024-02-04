@@ -89,10 +89,12 @@ public class TelegramBot extends TelegramLongPollingBot {
 //   создание кнопки Меню в левом углу командной строки бота
         MainMenu.mainMenuButton(this);
     }
+
     @Override
     public String getBotUsername() {
         return botConfig.getBotName();
     }
+
     @Override
     public String getBotToken() {
         return botConfig.getToken();
@@ -106,7 +108,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botConfig.getThePathToTheImageFileDog();
     }
 
-    private long getProbationaryPeriod(){
+    private long getProbationaryPeriod() {
         return botConfig.getProbationaryPeriod();
     }
 
@@ -118,11 +120,12 @@ public class TelegramBot extends TelegramLongPollingBot {
      * самый главный метод, который принимает "сообщения" (объекты) присланные с телеграмм бота,
      * выделяет нужные нам поля из данных (присланных) объектов и передает эти поля
      * в (actionSelectorFromUpdate(String text, long chatId)) для дальнейшей обработки
+     *
      * @param update
      */
     @Override
     @Synchronized
-    public void onUpdateReceived (Update update) {
+    public void onUpdateReceived(Update update) {
         System.out.println("  Вошли в метод ==> onUpdateReceived(Update update) ");
         long chatId = fetchChatId(update);
         Report report = getOrCreateReport(update, chatId);
@@ -149,18 +152,21 @@ public class TelegramBot extends TelegramLongPollingBot {
                     enablingThe_processingWellBeingAndAddiction_method = false;
                     //  Report reportToSave = variablesToReportToVolunteers.remove(chatId);
                     // todo:     reportService.save(reportToSave);
-                          if ((report.getChatId() != null)
-                                  && (report.getAnimalDiet() != null)
-                                  && (report.getDateReport() != null)
-                                  && (report.getDateEndOfProbation() != null)
-                                  && (report.getWellBeingAndAddiction() != null)
-                                  && (report.getPhotoAnimal() != null)
-                          ) {
-                                 reportRepository.save(report);
-                                 sendMessage(chatId, " Отчет составлен и отправлен на проверку ! ");
-                               } else {
-                              sendMessage(chatId, " Отчет имеет ошибку ! ");
-                                       }
+                    if ((report.getChatId() != null)
+                            && (report.getAnimalDiet() != null)
+                            && (report.getDateReport() != null)
+                            && (report.getDateEndOfProbation() != null)
+                            && (report.getWellBeingAndAddiction() != null)
+                            && (report.getPhotoAnimal() != null)
+                    ) {
+                        System.out.println(" количество строк в базе данных = " + reportRepository.count());
+                        long idTemp = reportRepository.count();
+                        report.setId(++idTemp);
+                        reportRepository.save(report);
+                        sendMessage(chatId, " Отчет составлен и отправлен на проверку ! ");
+                    } else {
+                        sendMessage(chatId, " Отчет имеет ошибку ! ");
+                    }
                     messageText = "/come back" + report.getAnimalsFlag().getTitle();
                 }
 
@@ -195,6 +201,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      * и возвращает нам report этого пользователя,
      * если пользователь вошел впервые то создается report, частично заполняется
      * (полями) частями отчета и возвращает report
+     *
      * @param update
      * @param chatId
      * @return
@@ -213,6 +220,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Возвращает из сообщения телеграмма update --> chatId пользователя
+     *
      * @param update
      * @return long
      */
@@ -220,7 +228,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             System.out.println("метод => private static long fetchChatId(Update update) \n" +
                     "возвращает из update.getMessage().getChatId() "
-                                     + update.getMessage().getChatId());
+                    + update.getMessage().getChatId());
             return update.getMessage().getChatId();
         } else if (update.hasCallbackQuery()) {
             System.out.println("метод => private static long fetchChatId(Update update) \n" +
@@ -234,6 +242,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     /**
      * метод обработки сообщений (полей) из главного Меню, от метода -> onUpdateReceived(Update update),
      * выбирает (в зависимости от пункта) и выводит в бот, следующую клавиатуру
+     *
      * @param text
      * @param chatId
      * @param report

@@ -4,8 +4,11 @@ import PetShelterTGBot.theEnumConstants.Animals;
 
 import java.util.ArrayList;
 import java.util.List;
-/** Первая клавиатура входа в приют животных
- * Этап 1. Консультация с новым пользователем  */
+
+/**
+ * Первая клавиатура входа в приют животных
+ * Этап 1. Консультация с новым пользователем
+ */
 public class TheFirstKeyboardOfTheEntranceToTheShelterForAnimal {
     public static List<String> getList(Animals enumAnimals) {
         List<String> list = new ArrayList<>();

@@ -175,7 +175,7 @@ public class HandlerForAllKeys {
                         bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
                         bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
                         bot.enablingThe_processingWellBeingAndAddiction_method = true;
-                         bot.animalsFlag = Animals.CAT;
+                        bot.animalsFlag = Animals.CAT;
                     }
                     break;
 

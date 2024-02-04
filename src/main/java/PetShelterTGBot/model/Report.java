@@ -8,7 +8,8 @@ import lombok.Getter;
 import java.util.Date;
 import java.util.Objects;
 
-/** Создаем сущность "Отчеты"
+/**
+ * Создаем сущность "Отчеты"
  * Создаем таблицу reports(Отчеты), имеющую следующие свойства-колонки:
  * 1) long id - id отчета, генерируемый автоматически,
  * 2) long chatId - id пользователя,
@@ -27,11 +28,11 @@ import java.util.Objects;
 public class Report {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    @ManyToOne
+    //    @ManyToOne
     @JoinColumn(name = "chat_id")
-    private long chatId ;
+    private long chatId;
     @Column(name = "name_user")
     private String nameUser;
     @Column(name = "date_report")
@@ -51,10 +52,19 @@ public class Report {
     String animalDiet;
     @Column(name = "well_being_and_addiction")
     String wellBeingAndAddiction;
+
     /**
      * Создаем конструктор без параметров
      */
     public Report() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Long getChatId() {
@@ -89,28 +99,38 @@ public class Report {
         this.dateEndOfProbation = dateEndOfProbation;
     }
 
-    public int getStatusReport() {
-        return statusReport;
-    }
-
     public void setStatusReport(int statusReport) {
         this.statusReport = statusReport;
-    }
-
-    public String getReportText() {
-        return reportText;
-    }
-
-    public void setReportText(String reportText) {
-        this.reportText = reportText;
     }
 
     public String getAnimalDiet() {
         return animalDiet;
     }
 
+    public void setAnimalDiet(String animalDiet) {
+        this.animalDiet = animalDiet;
+    }
+
+    public Animals getAnimalsFlag() {
+        switch (this.animalsFlag) {
+            case "#cat":
+                return Animals.CAT;
+            case "#dog":
+                return Animals.DOG;
+        }
+        return null;
+    }
+
+    public void setAnimalsFlag(Animals animalsFlag) {
+        this.animalsFlag = animalsFlag.getTitle();
+    }
+
     public String getWellBeingAndAddiction() {
         return wellBeingAndAddiction;
+    }
+
+    public void setWellBeingAndAddiction(String wellBeingAndAddiction) {
+        this.wellBeingAndAddiction = wellBeingAndAddiction;
     }
 
     public byte[] getPhotoAnimal() {
@@ -119,31 +139,18 @@ public class Report {
 
     public void setPhotoAnimal(byte[] photoAnimal) {
         this.photoAnimal = photoAnimal;
-        System.out.println("Вошли ==> public class Report \n " +
-                       "метод ==>  public void setPhotoAnimal(PhotoSize photoAnimal) \n" +
-                       "после ==> this.photoAnimal = photoAnimal; фото загружено в public Report()");
     }
 
-    public Animals getAnimalsFlag() {
-     switch (this.animalsFlag){
-         case "#cat":
-             return Animals.CAT;
-         case "#dog":
-             return Animals.DOG;
-      }
-        return null;
+    public int getStatusReport() {
+        return statusReport;
     }
 
-    public void setAnimalsFlag(Animals animalsFlag) {
-        this.animalsFlag = animalsFlag.getTitle();
-     }
-
-    public void setAnimalDiet(String animalDiet) {
-        this.animalDiet = animalDiet;
+    public void setReportText(String reportText) {
+        this.reportText = reportText;
     }
 
-    public void setWellBeingAndAddiction(String wellBeingAndAddiction) {
-        this.wellBeingAndAddiction = wellBeingAndAddiction;
+    public String getReportText() {
+        return reportText;
     }
 
     @Override
@@ -152,23 +159,23 @@ public class Report {
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
         return id == report.id && statusReport == report.statusReport
-                               && Objects.equals(chatId, report.chatId)
-                               && Objects.equals(nameUser, report.nameUser)
-                               && Objects.equals(dateReport, report.dateReport)
-                               && Objects.equals(dateEndOfProbation, report.dateEndOfProbation)
-                               && Objects.equals(reportText, report.reportText)
-                               && Objects.equals(photoAnimal, report.photoAnimal)
-                               && animalsFlag == report.animalsFlag
-                               && Objects.equals(animalDiet, report.animalDiet)
-                               && Objects.equals(wellBeingAndAddiction, report.wellBeingAndAddiction);
+                && Objects.equals(chatId, report.chatId)
+                && Objects.equals(nameUser, report.nameUser)
+                && Objects.equals(dateReport, report.dateReport)
+                && Objects.equals(dateEndOfProbation, report.dateEndOfProbation)
+                && Objects.equals(reportText, report.reportText)
+                && Objects.equals(photoAnimal, report.photoAnimal)
+                && animalsFlag == report.animalsFlag
+                && Objects.equals(animalDiet, report.animalDiet)
+                && Objects.equals(wellBeingAndAddiction, report.wellBeingAndAddiction);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, chatId, nameUser, dateReport,
-                             dateEndOfProbation, statusReport,
-                                reportText, photoAnimal, animalsFlag,
-                                    animalDiet, wellBeingAndAddiction);
+                dateEndOfProbation, statusReport,
+                reportText, photoAnimal, animalsFlag,
+                animalDiet, wellBeingAndAddiction);
     }
 
     @Override
