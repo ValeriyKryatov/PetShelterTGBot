@@ -120,51 +120,6 @@ public class TelegramBot extends TelegramLongPollingBot {
      * в (actionSelectorFromUpdate(String text, long chatId)) для дальнейшей обработки
      * @param update
      */
-    public void onUpdateReceived1(Update update) {
-        System.out.println("  Вошли в метод ==> onUpdateReceived(Update update) ");
-        long chatId = fetchChatId(update);
-        Report report = getOrCreateReport(update, chatId);
-
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            messageText = update.getMessage().getText();
- // загрузка в отчет диеты питомца, второе действие - промежуточное при составлении отчета
-            if (enablingThe_processingAnimalDiet_method) {
-                report.setAnimalDiet(messageText);
-                enablingThe_processingAnimalDiet_method = false;
-                messageText = "/well-being and addiction" + report.getAnimalsFlag().getTitle();
-            }
-// загрузка в отчет самочувствия и привыкания к новому месту изменение привычек, третье действие - последнее при составлении отчета
-            if (enablingThe_processingWellBeingAndAddiction_method) {
-                report.setWellBeingAndAddiction(messageText);
-                enablingThe_processingWellBeingAndAddiction_method = false;
-//                Report reportToSave = variablesToReportToVolunteers.remove(chatId);
-                // todo:
-                //      reportService.save(reportToSave);
-                messageText = "/come back" + report.getAnimalsFlag().getTitle();
-            }
-            actionSelectorFromUpdate(messageText, report.getChatId(), report);
-            System.out.println("  Определили имя пользователя бота в update.getMessage().hasText() ==> " + report.getNameUser());
-            System.out.println("  Определили chatId для бота update.getMessage().getChatId()  ==> " + report.getChatId());
-            System.out.println("  Этот текст, пришел от бота update.getMessage().getText() ==> " + messageText);
-        } else if (update.hasCallbackQuery()) {
-             messageText = update.getCallbackQuery().getData();
-             System.out.println("  Этот текст, пришел от бота в update.getCallbackQuery().getData() ==> " + messageText);
-             actionSelectorFromUpdate(messageText, chatId, report);
-             System.out.println("  Выход обработался метод ==> onUpdateReceived(Update update) ==>  " + messageText);
-        }
-        else if (update.hasMessage() && enablingThe_processingPhotosForReport_method) {
-//     загрузка в отчет фотографии животного, первое действие - начало составления отчета
-            if (update.getMessage().hasPhoto()) {
-                processingPhotosForReport(update, report);
-                messageText = "/animal diet" + report.getAnimalsFlag().getTitle();
-            } else {
-                messageText = "/animal not photo" + report.getAnimalsFlag().getTitle();
-            }
-            enablingThe_processingPhotosForReport_method = false;
-            actionSelectorFromUpdate(messageText, report.getChatId(), report);
-        }
-    }
-
     @Override
     @Synchronized
     public void onUpdateReceived (Update update) {
@@ -250,10 +205,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             Report reportByUser = new Report();
             reportByUser.setChatId(chatId);
             reportByUser.setNameUser(update.getMessage().getChat().getFirstName());
-            // reportByUser.setDateReport(new Date()); // создать переменные о времени и заполнить их в userState
-            // reportByUser.setDateEndOfProbation(); todo: установить дату окончания испытательного срока
-            // проверить срок отчета, но тогда нужно учеcть, когда пользователь действительно сдал отчет
-            // потому что сейчас, отчет создается при первом сообщении от пользователя, независимо какое это было сообщение
             variablesToReportToVolunteers.put(chatId, reportByUser);
             return reportByUser;
         }
