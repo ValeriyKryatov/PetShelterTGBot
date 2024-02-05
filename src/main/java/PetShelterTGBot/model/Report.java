@@ -2,7 +2,6 @@ package PetShelterTGBot.model;
 
 import PetShelterTGBot.theEnumConstants.Animals;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 
 import java.util.Date;
@@ -28,10 +27,9 @@ import java.util.Objects;
 public class Report {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    //    @ManyToOne
-    @JoinColumn(name = "chat_id")
+    @Column(name = "chat_id")
     private long chatId;
     @Column(name = "name_user")
     private String nameUser;
@@ -47,7 +45,6 @@ public class Report {
     private byte[] photoAnimal;
     @Column(name = "animals_flag")
     String animalsFlag;
-
     @Column(name = "animal_diet")
     String animalDiet;
     @Column(name = "well_being_and_addiction")

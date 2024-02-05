@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report,Long> {
-    List<Report> findByDateEndOfProbationBetween(Date dateEndOfProbation, Date dateEndOfProbation2 );
+    List<Report>  findAllByStatusReport (int statusReport);
+    Report findFirstByOrderByIdDesc();
 
-    List<Report>  findAllByStatusReport (int varible);
 }

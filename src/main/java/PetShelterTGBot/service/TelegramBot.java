@@ -111,10 +111,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botConfig.getProbationaryPeriod();
     }
 
-//    private String getWayToStoreTemporaryPhotos() {
-//        return botConfig.getWayToStoreTemporaryPhotos();
-//    }
-
     /**
      * самый главный метод, который принимает "сообщения" (объекты) присланные с телеграмм бота,
      * выделяет нужные нам поля из данных (присланных) объектов и передает эти поля
@@ -158,9 +154,15 @@ public class TelegramBot extends TelegramLongPollingBot {
                             && (report.getWellBeingAndAddiction() != null)
                             && (report.getPhotoAnimal() != null)
                     ) {
-                        System.out.println(" количество строк в базе данных = " + reportRepository.count());
-                        long idTemp = reportRepository.count();
-                        report.setId(++idTemp);
+//                        скоп с кодом если база данных не нумерует id самостоятельно
+//                        {
+//                            long idTemp;
+//                            if ( reportRepository.count() == 0){ idTemp = 0;
+//                        //          вытаскиваем последнюю запись из базы данных, далее из неё id
+//                            } else { idTemp = reportRepository.findFirstByOrderByIdDesc().getId();}
+//                        report.setId(++idTemp);
+//                        }
+
                         // статус отчета 1 - не проверен, 2 - напоминание направлено, 3 - испытательный срок закрыт
                         report.setStatusReport(1);
                         // записываем отчет в базу данных
