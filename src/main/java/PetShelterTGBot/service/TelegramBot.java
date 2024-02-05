@@ -1,7 +1,6 @@
 package PetShelterTGBot.service;
 
 import PetShelterTGBot.repository.ReportRepository;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
@@ -59,12 +58,12 @@ public class TelegramBot extends TelegramLongPollingBot {
      * будет вызываться из Мары заполняемый отчет Report принадлежащий  определенному
      * пользователя по chatId и записываться в него свое (поле) значение
      */
-    final Map<Long, Report> variablesToReportToVolunteers = new HashMap<>();
+    private final Map<Long, Report> variablesToReportToVolunteers = new HashMap<>();
 
     /**
      * данный Map, запоминает chatId пользователя и клавиатуру, где он находится в текущий момент
      */
-    final Map<Long, List<String>> userAlreadyInteracted = new HashMap<>();
+    private final Map<Long, List<String>> userAlreadyInteracted = new HashMap<>();
 
     private final BotConfig botConfig;
     // ReportService todo:
@@ -73,16 +72,16 @@ public class TelegramBot extends TelegramLongPollingBot {
      * активируем конвертор клавиатуры
      */
     @Getter
-    ProjectKeyboardConverter projectKeyboardConverter;
+    private final ProjectKeyboardConverter projectKeyboardConverter;
     /**
      * Подключаем репозиторий для Report
      */
-    ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
 
     public TelegramBot(BotConfig botConfig,
-                       ProjectKeyboardConverter projectKeyboardConverter,
-                       ReportRepository reportRepository
-    ) {
+                       ReportRepository reportRepository,
+                       ProjectKeyboardConverter projectKeyboardConverter
+                       ) {
         this.botConfig = botConfig;
         this.reportRepository = reportRepository;
         this.projectKeyboardConverter = projectKeyboardConverter;
@@ -162,6 +161,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                         System.out.println(" количество строк в базе данных = " + reportRepository.count());
                         long idTemp = reportRepository.count();
                         report.setId(++idTemp);
+                        // статус отчета 1 - не проверен, 2 - напоминание направлено, 3 - испытательный срок закрыт
+                        report.setStatusReport(1);
+                        // записываем отчет в базу данных
                         reportRepository.save(report);
                         sendMessage(chatId, " Отчет составлен и отправлен на проверку ! ");
                     } else {

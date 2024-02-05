@@ -20,7 +20,7 @@ public class BotConfig {
     private String thePathToTheImageFileDog;
     @Value("${bot.specifiedTime_30_daysInMilliseconds}")
     private Long probationaryPeriod;
+    @Value("${bot.specifiedTime_1_daysInMilliseconds}")
+    private Long waitingTimeForReportDays;
 
-//    @Value("${bot.wayToStoreTemporaryPhotos}")
-//    private String wayToStoreTemporaryPhotos;
 }
