@@ -1,8 +1,8 @@
 package PetShelterTGBot.controller;
 
-import PetShelterTGBot.exception.NotFoundUserException;
-import PetShelterTGBot.model.User;
-import PetShelterTGBot.service.UserService;
+import PetShelterTGBot.exception.NotFoundAnimalException;
+import PetShelterTGBot.model.Animal;
+import PetShelterTGBot.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 /**
- * Контроллер пользователей.
+ * Контроллер животных.
  */
 @RestController
-@RequestMapping("/pet_shelter/user")
-@Tag(name = "API по работе с пользователями",
-        description = "CRUD-операции для работы с пользователями")
-public class UserController {
+@RequestMapping("/pet_shelter/animal")
+@Tag(name = "API по работе с животными",
+        description = "CRUD-операции для работы с животными")
+public class AnimalController {
 
-    private final UserService userService;
+    private final AnimalService animalService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
     }
 
     @GetMapping("/{id}")
     @Operation(
-            summary = "Поиск пользователя по id"
+            summary = "Поиск животного по id"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Удалось получить пользователя по id"
+            description = "Удалось получить животное по id"
     )
     @ApiResponse(
             responseCode = "400",
@@ -43,21 +43,21 @@ public class UserController {
             responseCode = "500",
             description = "Произошла ошибка, не зависящая от вызывающей стороны"
     )
-    public ResponseEntity<User> getUserInfo(@PathVariable Long id) {
-        User user = userService.readUser(id);
-        if (user == null) {
+    public ResponseEntity<Animal> getAnimalInfo(@PathVariable Long id) {
+        Animal animal = animalService.readAnimal(id);
+        if (animal == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(animal);
     }
 
     @GetMapping
     @Operation(
-            summary = "Список всех пользователей"
+            summary = "Список всех животных"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Удалось получить список пользователей"
+            description = "Удалось получить список животных"
     )
     @ApiResponse(
             responseCode = "400",
@@ -67,18 +67,18 @@ public class UserController {
             responseCode = "500",
             description = "Произошла ошибка, не зависящая от вызывающей стороны"
     )
-    public ResponseEntity<Collection<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<Collection<Animal>> getAllAnimals() {
+        return ResponseEntity.ok(animalService.getAllAnimals());
     }
 
     @PostMapping
     @Operation(
-            summary = "Регистрация пользователя",
-            description = "Нужно написать данные пользователя"
+            summary = "Регистрация животного",
+            description = "Нужно написать данные животного"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Удалось добавить пользователя"
+            description = "Удалось добавить животное"
     )
     @ApiResponse(
             responseCode = "400",
@@ -88,18 +88,18 @@ public class UserController {
             responseCode = "500",
             description = "Произошла ошибка, не зависящая от вызывающей стороны"
     )
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public Animal createAnimal(@RequestBody Animal animal) {
+        return animalService.createAnimal(animal);
     }
 
     @PutMapping
     @Operation(
-            summary = "Изменения данных пользователя",
-            description = "Нужно написать новые данные пользователя"
+            summary = "Изменения данных животного",
+            description = "Нужно написать новые данные животного"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Удалось изменить данне пользователя"
+            description = "Удалось изменить данне животного"
     )
     @ApiResponse(
             responseCode = "400",
@@ -109,22 +109,22 @@ public class UserController {
             responseCode = "500",
             description = "Произошла ошибка, не зависящая от вызывающей стороны"
     )
-    public ResponseEntity<User> changeUser(@RequestBody User user) {
-        User foundUser = userService.changeUser(user);
-        if (foundUser == null) {
-            throw new NotFoundUserException("Пользователь не найден в базе данных!");
+    public ResponseEntity<Animal> changeAnimal(@RequestBody Animal animal) {
+        Animal foundAnimal = animalService.changeAnimal(animal);
+        if (foundAnimal == null) {
+            throw new NotFoundAnimalException("Животное не найдено в базе данных!");
         }
-        return ResponseEntity.ok(foundUser);
+        return ResponseEntity.ok(foundAnimal);
     }
 
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Удаление пользователя по идентификатору",
-            description = "Нужно написать id пользователя, которого нужно удалить"
+            summary = "Удаление животного по идентификатору",
+            description = "Нужно написать id животного, которое нужно удалить"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Удалось удалить пользователя"
+            description = "Удалось удалить животное"
     )
     @ApiResponse(
             responseCode = "400",
@@ -134,8 +134,8 @@ public class UserController {
             responseCode = "500",
             description = "Произошла ошибка, не зависящая от вызывающей стороны"
     )
-    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<Animal> deleteAnimal(@PathVariable Long id) {
+        animalService.deleteAnimal(id);
         return ResponseEntity.ok().build();
     }
 }

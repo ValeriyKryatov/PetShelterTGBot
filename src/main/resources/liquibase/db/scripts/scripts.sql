@@ -49,11 +49,15 @@ CREATE TABLE shelters
 
 CREATE TABLE reports
 (
-    id                    BIGSERIAL PRIMARY KEY,
-    user_id               BIGSERIAL NOT NULL,
-    date_report           DATE      NOT NULL,
-    status_report         VARCHAR   NOT NULL,
-    date_end_of_probation DATE,
-    report_text           VARCHAR,
-    photo_animal          BYTEA
+    id                       BIGSERIAL PRIMARY KEY,
+    chat_id                  BIGSERIAL NOT NULL,
+    name_user                VARCHAR,
+    date_report              DATE,
+    date_end_of_probation    DATE,
+    status_report            INTEGER,
+    report_text              VARCHAR,
+    photo_animal             BYTEA,
+    animals_flag             VARCHAR,
+    animal_diet              VARCHAR,
+    well_being_and_addiction VARCHAR
 );

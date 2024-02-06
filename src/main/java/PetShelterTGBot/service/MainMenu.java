@@ -20,7 +20,6 @@ public class MainMenu {
         listOfCommands.add(new BotCommand("/start", "Приветствие"));
         listOfCommands.add(new BotCommand("/menu1", "Приют для кошек"));
         listOfCommands.add(new BotCommand("/menu2", "Приют для собак"));
-        listOfCommands.add(new BotCommand("/menu3", ".... в разработке "));
         try {
             bot.execute(new SetMyCommands(listOfCommands,
                     new BotCommandScopeDefault(),
