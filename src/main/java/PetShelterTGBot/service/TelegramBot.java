@@ -1,6 +1,10 @@
 package PetShelterTGBot.service;
 
+import PetShelterTGBot.model.MessagesForVolunteers;
+import PetShelterTGBot.model.VisitToShelter;
+import PetShelterTGBot.repository.MessagesForVolunteersRepository;
 import PetShelterTGBot.repository.ReportRepository;
+import PetShelterTGBot.repository.VisitToShelterRepository;
 import lombok.Getter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import static PetShelterTGBot.theEnumConstants.Constant.GREETINGS_AT_THE_SHELTER_INFO;
 
@@ -39,6 +44,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     boolean enablingThe_processingAnimalDiet_method = false;
     boolean enablingThe_processingPhotosForReport_method = false;
     boolean enablingThe_processingWellBeingAndAddiction_method = false;
+    boolean enablingMessageMethodProcessingForVolunteers = false;
+    boolean enablingProcessingOfMethodsForReportingVisitToShelter = false;
+
     /**
      * данный,  Энам животных, применяется для правильного вызова клавиатур и обработки методов
      * в зависимости с каким видом животного мы имеем дело
@@ -77,13 +85,25 @@ public class TelegramBot extends TelegramLongPollingBot {
      * Подключаем репозиторий для Report
      */
     private final ReportRepository reportRepository;
+    /**
+     * Подключаем репозиторий для MessagesForVolunteersRepository
+     */
+    private final MessagesForVolunteersRepository messagesForVolunteersRepository;
+    /**
+     * Подключаем репозиторий для VisitToShelterRepository
+     */
+    private final VisitToShelterRepository visitToShelterRepository;
 
     public TelegramBot(BotConfig botConfig,
                        ReportRepository reportRepository,
+                       MessagesForVolunteersRepository messagesForVolunteersRepository,
+                       VisitToShelterRepository visitToShelterRepository,
                        ProjectKeyboardConverter projectKeyboardConverter
     ) {
         this.botConfig = botConfig;
         this.reportRepository = reportRepository;
+        this.messagesForVolunteersRepository = messagesForVolunteersRepository;
+        this.visitToShelterRepository = visitToShelterRepository;
         this.projectKeyboardConverter = projectKeyboardConverter;
 //   создание кнопки Меню в левом углу командной строки бота
         MainMenu.mainMenuButton(this);
@@ -129,6 +149,24 @@ public class TelegramBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             if (message.hasText()) {
                 messageText = update.getMessage().getText();
+// загрузка сообщений о визите
+                if (enablingProcessingOfMethodsForReportingVisitToShelter) {
+                    if (processingMessagesForVisitShelter(update)) {
+                        sendMessage(chatId, " Сообщение отправлено. Вам перезвонят ! ");
+                        messageText = "/visit to the shelter treatment" + animalsFlag.getTitle();
+                    } else {
+                        sendMessage(chatId, " Сообщение не отправлено. Возникла ошибка при заполнении ! ");
+                        messageText = "/come back" + animalsFlag.getTitle();
+                    }
+                }
+// загрузка сообщения от пользователя для волонтера
+                if (enablingMessageMethodProcessingForVolunteers) {
+                    processingMessagesForVolunteers(update);
+                    sendMessage(chatId, " Сообщение отправлено волонтеру ! ");
+                    enablingMessageMethodProcessingForVolunteers = false;
+                    messageText = "/come back" + animalsFlag.getTitle();
+                    System.out.println("processingMessagesForVolunteers(update) ======> " + messageText);
+                }
 // загрузка в отчет диеты питомца, второе действие - промежуточное при составлении отчета
                 if (enablingThe_processingAnimalDiet_method) {
                     report.setAnimalDiet(messageText);
@@ -145,8 +183,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                     Date dateEndOfProbation = new Date(dataTempMillisec);
                     report.setDateEndOfProbation(dateEndOfProbation);
                     enablingThe_processingWellBeingAndAddiction_method = false;
-                    //  Report reportToSave = variablesToReportToVolunteers.remove(chatId);
-                    // todo:     reportService.save(reportToSave);
+
+//                    Report reportToSave = variablesToReportToVolunteers.remove(chatId);
+
                     if ((report.getChatId() != null)
                             && (report.getAnimalDiet() != null)
                             && (report.getDateReport() != null)
@@ -155,13 +194,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                             && (report.getPhotoAnimal() != null)
                     ) {
 //                        скоп с кодом если база данных не нумерует id самостоятельно
-//                        {
+                        {
 //                            long idTemp;
 //                            if ( reportRepository.count() == 0){ idTemp = 0;
 //                        //          вытаскиваем последнюю запись из базы данных, далее из неё id
 //                            } else { idTemp = reportRepository.findFirstByOrderByIdDesc().getId();}
 //                        report.setId(++idTemp);
-//                        }
+                        }
 
                         // статус отчета 1 - не проверен, 2 - напоминание направлено, 3 - испытательный срок закрыт
                         report.setStatusReport(1);
@@ -240,6 +279,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     + update.getCallbackQuery().getMessage().getChatId());
             return update.getCallbackQuery().getMessage().getChatId();
         }
+        System.out.println(" Внимание проблема с БОТОМ !!!");
         throw new IllegalStateException("Cannot fetch chat id");
     }
 
@@ -354,6 +394,9 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * метод вызова и вывода фотографий карты (картинка) с адресом в бот
+     *
+     * @param chatId
+     * @param en
      */
     public void sendPhoto(Long chatId, Animals en) {
         try {
@@ -378,6 +421,9 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * обработка присланного фото для заполнения отчета от усыновителя
+     *
+     * @param update
+     * @param report
      */
     @Transactional
     public void processingPhotosForReport(Update update, Report report) {
@@ -438,5 +484,62 @@ public class TelegramBot extends TelegramLongPollingBot {
         } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * обработка сообщения для волонтера
+     *
+     * @param update
+     */
+    @Synchronized
+    @Transactional
+    public void processingMessagesForVolunteers(Update update) {
+        Message message = update.getMessage();
+        if (message.hasText()) {
+            long chatId = fetchChatId(update);
+            String nameUser = update.getMessage().getChat().getFirstName();
+            String messageText = update.getMessage().getText();
+            MessagesForVolunteers messagesForVolunteers = new MessagesForVolunteers();
+            messagesForVolunteers.setChatId(chatId);
+            messagesForVolunteers.setNameUser(nameUser);
+            messagesForVolunteers.setDate(new Date());
+            messagesForVolunteers.setText(messageText);
+            messagesForVolunteersRepository.save(messagesForVolunteers);
+        }
+    }
+
+    /**
+     * обработка сообщения о посещении приюта
+     *
+     * @param update
+     * @return boolean
+     */
+    @Synchronized
+    @Transactional
+    public boolean processingMessagesForVisitShelter(Update update) {
+        Pattern PATTERN = Pattern.compile("([0-9\\.\\:\\s]{11})(\\s)([\\W+]+)");
+        Message message = update.getMessage();
+        if (message.hasText()) {
+            String messageText = update.getMessage().getText();
+            var matcher = PATTERN.matcher(messageText);
+            if (matcher.matches()) {
+                String s = matcher.group(1);
+                var telephone = Long.parseLong(s);
+                String messageT = matcher.group(3);
+                long chatId = fetchChatId(update);
+                String nameUser = update.getMessage().getChat().getFirstName();
+                VisitToShelter visitToShelter = new VisitToShelter();
+                visitToShelter.setChatId(chatId);
+                visitToShelter.setNameUser(nameUser);
+                visitToShelter.setDate(new Date());
+                visitToShelter.setText(messageT);
+                visitToShelter.setTelephone(telephone);
+                visitToShelterRepository.save(visitToShelter);
+
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 }

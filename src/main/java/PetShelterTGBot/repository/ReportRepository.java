@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report,Long> {
     List<Report>  findAllByStatusReport (int statusReport);
-    Report findFirstByOrderByIdDesc();
 
+    /**
+     * метод возвращает последнюю запись Report из базы данных, сортируя по id
+     * применяется в случае, если база данных сама не нумерует по id
+     */
+    Report findFirstByOrderByIdDesc();
 }

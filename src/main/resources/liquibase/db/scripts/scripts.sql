@@ -61,3 +61,24 @@ CREATE TABLE reports
     animal_diet              VARCHAR,
     well_being_and_addiction VARCHAR
 );
+
+CREATE TABLE messages_for_volunteers
+(
+    id                       BIGSERIAL PRIMARY KEY,
+    chat_id                  BIGSERIAL,
+    name_user                VARCHAR,
+    date                     DATE,
+    status                   INTEGER,
+    text                     VARCHAR
+);
+
+CREATE TABLE visit_to_shelter
+(
+    id                       BIGSERIAL PRIMARY KEY,
+    chat_id                  BIGSERIAL,
+    name_user                VARCHAR,
+    date                     DATE,
+    status                   INTEGER,
+    text                     VARCHAR,
+    telephone                BIGINT
+);

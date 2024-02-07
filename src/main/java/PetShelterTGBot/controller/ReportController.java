@@ -3,7 +3,6 @@ package PetShelterTGBot.controller;
 import PetShelterTGBot.model.Report;
 import PetShelterTGBot.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

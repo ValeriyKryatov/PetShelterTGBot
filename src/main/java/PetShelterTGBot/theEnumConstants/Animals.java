@@ -13,5 +13,4 @@ public enum Animals {
     public String getTitle() {
         return title;
     }
-
 }

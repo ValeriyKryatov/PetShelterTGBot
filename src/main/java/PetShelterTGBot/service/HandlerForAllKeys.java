@@ -67,13 +67,18 @@ public class HandlerForAllKeys {
                     case "/visit to the shelter": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
-                                "нужно заполнить анкету:\n" +
-                                "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n" +
-                                "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
+                                "нужно правильно заполнить Сообщение :\n" +
+                                "Напишите Ваш телефон по образцу: 89210554433 дальше, через пробел, в произвольной форме:\n" +
+                                " имя фамилия, или именование организации, когда хотите посетить, во сколько, с какой целью ");
                     }
-                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                    bot.enablingProcessingOfMethodsForReportingVisitToShelter = true;
+                    bot.animalsFlag = Animals.CAT;
                     break;
+
+                    case "/visit to the shelter treatment":
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                        break;
 
                     case "/rules for getting to know a pet":
                         bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_CAT_SHELTER);
@@ -181,8 +186,11 @@ public class HandlerForAllKeys {
 
                     case "/contact a volunteer": {
                         // обработчик при этом условии
-                        bot.sendMessage(chatId, "Связаться с волонтером нужно написать сообщение сюда, предоставить свои координаты для связи " +
-                                "НАПИСАТЬ ОБРАБОТЧИК и ВАЛИДАЦИЮ");
+                        bot.sendMessage(chatId, "Связаться с волонтером можно оставив сообщение здесь. \n " +
+                                "Укажите что Вы хотите сообщить. Далее если нужно, представьтесь и оставьте \n " +
+                                "для связи свои координаты телефон, почту и т.д.. ");
+                        bot.enablingMessageMethodProcessingForVolunteers = true;
+                        bot.animalsFlag = Animals.CAT;
                     }
                     break;
 
@@ -264,13 +272,18 @@ public class HandlerForAllKeys {
                     case "/visit to the shelter": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
-                                "нужно заполнить анкету:\n" +
-                                "Напишите Ваше Имя, Фамилию, номер телефона(без кода страны), номер машины в формате:\n" +
-                                "Иван Иванов 1234567890 а123аа   НАПИСАТЬ ВАЛИДАЦИЮ и ОБРАБОТЧИК !!!!");
+                                "нужно правильно заполнить Сообщение :\n" +
+                                "Напишите Ваш телефон по образцу: 89210554433 дальше, через пробел, в произвольной форме:\n" +
+                                " имя фамилия, или именование организации, когда хотите посетить, во сколько, с какой целью ");
                     }
-                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
-                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle())));
+                    bot.enablingProcessingOfMethodsForReportingVisitToShelter = true;
+                    bot.animalsFlag = Animals.DOG;
                     break;
+
+                    case "/visit to the shelter treatment":
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                        break;
 
                     case "/rules for getting to know a pet":
                         bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_DOG_SHELTER);
@@ -345,7 +358,6 @@ public class HandlerForAllKeys {
                     }
                     break;
 
-                    // ПЕРЕРАБОТАТЬ ДЛЯ СОБАК!!!!!!
                     case "/how to properly submit a report": {
                         // обработчик при этом условии
                         bot.sendMessage(chatId, SUBMISSION_OF_THE_REPORT);
@@ -394,10 +406,12 @@ public class HandlerForAllKeys {
 
                     case "/contact a volunteer": {
                         // обработчик при этом условии
-                        bot.sendMessage(chatId, "Связаться с волонтером нужно написать сообщение сюда, предоставить свои координаты для связи " +
-                                "НАПИСАТЬ ОБРАБОТЧИК и ВАЛИДАЦИЮ");
+                        bot.sendMessage(chatId, "Связаться с волонтером можно оставив сообщение здесь. \n " +
+                                "Укажите что Вы хотите сообщить. Далее если нужно, представьтесь и оставьте \n " +
+                                "для связи свои координаты телефон, почту и т.д.. ");
+                        bot.enablingMessageMethodProcessingForVolunteers = true;
+                        bot.animalsFlag = Animals.DOG;
                     }
-                    break;
 
                     case "/come back": {
                         // обработчик при этом условии
