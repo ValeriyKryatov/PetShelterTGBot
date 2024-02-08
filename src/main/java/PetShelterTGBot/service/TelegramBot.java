@@ -138,8 +138,8 @@ public class TelegramBot extends TelegramLongPollingBot {
      *
      * @param update
      */
-    @Override
     @Synchronized
+    @Override
     public void onUpdateReceived(Update update) {
         System.out.println("  Вошли в метод ==> onUpdateReceived(Update update) ");
         long chatId = fetchChatId(update);
@@ -153,9 +153,11 @@ public class TelegramBot extends TelegramLongPollingBot {
                 if (enablingProcessingOfMethodsForReportingVisitToShelter) {
                     if (processingMessagesForVisitShelter(update)) {
                         sendMessage(chatId, " Сообщение отправлено. Вам перезвонят ! ");
+                        enablingProcessingOfMethodsForReportingVisitToShelter = false;
                         messageText = "/visit to the shelter treatment" + animalsFlag.getTitle();
                     } else {
                         sendMessage(chatId, " Сообщение не отправлено. Возникла ошибка при заполнении ! ");
+                        enablingProcessingOfMethodsForReportingVisitToShelter = false;
                         messageText = "/come back" + animalsFlag.getTitle();
                     }
                 }
@@ -165,10 +167,15 @@ public class TelegramBot extends TelegramLongPollingBot {
                     sendMessage(chatId, " Сообщение отправлено волонтеру ! ");
                     enablingMessageMethodProcessingForVolunteers = false;
                     messageText = "/come back" + animalsFlag.getTitle();
-                    System.out.println("processingMessagesForVolunteers(update) ======> " + messageText);
+                        System.out.println("processingMessagesForVolunteers(update) ======> " + messageText
+                                                                    + " Сообщение отправлено волонтеру ! ");
                     } else {
                         sendMessage(chatId, " Сообщение не отправлено. Возникла ошибка при заполнении ! ");
-                        messageText = "/come back" + animalsFlag.getTitle();}
+                        enablingMessageMethodProcessingForVolunteers = false;
+                        messageText = "/come back" + animalsFlag.getTitle();
+                        System.out.println("processingMessagesForVolunteers(update) ======> " + messageText
+                                + " Сообщение не отправлено. Возникла ошибка при заполнении ! ");
+                    }
                 }
 // загрузка в отчет диеты питомца, второе действие - промежуточное при составлении отчета
                 if (enablingThe_processingAnimalDiet_method) {
@@ -494,7 +501,6 @@ public class TelegramBot extends TelegramLongPollingBot {
      *
      * @param update
      */
-    @Synchronized
     @Transactional
     public boolean processingMessagesForVolunteers(Update update) {
         Message message = update.getMessage();
@@ -518,9 +524,9 @@ public class TelegramBot extends TelegramLongPollingBot {
      * @param update
      * @return boolean
      */
-    @Synchronized
     @Transactional
     public boolean processingMessagesForVisitShelter(Update update) {
+        boolean returnFlag = false;
         Pattern PATTERN = Pattern.compile("([0-9\\.\\:\\s]{11})(\\s)([\\W+]+)");
         Message message = update.getMessage();
         if (message.hasText()) {
@@ -539,11 +545,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                 visitToShelter.setText(messageT);
                 visitToShelter.setTelephone(telephone);
                 visitToShelterRepository.save(visitToShelter);
-
-            } else {
-                return false;
-            }
+                returnFlag = true;
+            } else {  returnFlag = false;  }
         }
-        return true;
+        return returnFlag;
     }
 }
