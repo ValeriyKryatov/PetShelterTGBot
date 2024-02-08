@@ -161,11 +161,14 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
 // загрузка сообщения от пользователя для волонтера
                 if (enablingMessageMethodProcessingForVolunteers) {
-                    processingMessagesForVolunteers(update);
+                    if(processingMessagesForVolunteers(update)){
                     sendMessage(chatId, " Сообщение отправлено волонтеру ! ");
                     enablingMessageMethodProcessingForVolunteers = false;
                     messageText = "/come back" + animalsFlag.getTitle();
                     System.out.println("processingMessagesForVolunteers(update) ======> " + messageText);
+                    } else {
+                        sendMessage(chatId, " Сообщение не отправлено. Возникла ошибка при заполнении ! ");
+                        messageText = "/come back" + animalsFlag.getTitle();}
                 }
 // загрузка в отчет диеты питомца, второе действие - промежуточное при составлении отчета
                 if (enablingThe_processingAnimalDiet_method) {
@@ -493,7 +496,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Synchronized
     @Transactional
-    public void processingMessagesForVolunteers(Update update) {
+    public boolean processingMessagesForVolunteers(Update update) {
         Message message = update.getMessage();
         if (message.hasText()) {
             long chatId = fetchChatId(update);
@@ -505,7 +508,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             messagesForVolunteers.setDate(new Date());
             messagesForVolunteers.setText(messageText);
             messagesForVolunteersRepository.save(messagesForVolunteers);
-        }
+          } else { return false;}
+        return true;
     }
 
     /**
