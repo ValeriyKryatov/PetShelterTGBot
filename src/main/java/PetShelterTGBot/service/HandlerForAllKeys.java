@@ -1,0 +1,445 @@
+package PetShelterTGBot.service;
+
+import PetShelterTGBot.model.Report;
+import PetShelterTGBot.service.TheKeyboardButtonMenu.*;
+import PetShelterTGBot.theEnumConstants.Animals;
+
+import static PetShelterTGBot.theEnumConstants.Constant.*;
+
+public class HandlerForAllKeys {
+    public static void keyboardAndMenuHandler(String messageText, long chatId, TelegramBot bot, Report report) {
+        String textOne = "";
+        String textTwo = "";
+        if (messageText != null && messageText.contains("#")) {
+            String[] arrayString = messageText.split("#");
+            textOne = arrayString[0];
+            textTwo = arrayString[1];
+        }
+        switch (textTwo) {
+            case "cat":
+
+                switch (textOne) {
+                    case "/information about the shelter":
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(Animals.CAT)));
+                        break;
+
+                    case "/how to take a pet from a shelter": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.CAT)));
+                    }
+                    break;
+
+                    case "/send a pet report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(Animals.CAT)));
+                    }
+                    break;
+
+                    case "/shelter address":
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SHELTER_CAT_ADDRESS);
+                        // выводим в бот фотографию
+                        bot.sendPhoto(chatId, Animals.CAT);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                        break;
+
+                    case "/car pass": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, REGISTRATION_OF_A_CAR_PASS_CAT_SHELTER);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/safety precautions": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SAFETY_PRECAUTIONS_CAT_SHELTER);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/visit to the shelter": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
+                                "нужно правильно заполнить Сообщение :\n" +
+                                "Напишите Ваш телефон по образцу: 89210554433 дальше, через пробел, в произвольной форме:\n" +
+                                " имя фамилия, или именование организации, когда хотите посетить, во сколько, с какой целью ");
+                    }
+                    bot.enablingProcessingOfMethodsForReportingVisitToShelter = true;
+                    bot.animalsFlag = Animals.CAT;
+                    break;
+
+                    case "/visit to the shelter treatment":
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                        break;
+
+                    case "/rules for getting to know a pet":
+                        bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_CAT_SHELTER);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle())));
+                        break;
+
+                    case "/documents for registration of guardianship": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, BASIC_TERMS);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/pet transportation": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PET_DELIVERY);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/arrangement of pet accommodation": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.CAT)));
+                    }
+                    break;
+
+                    case "/reasons for abandoning a pet": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, REASONS_FOR_REFUSAL_TO_ADOPTION);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/animal":
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PREPARING_THE_HOUSE_FOR_THE_ARRIVAL_OF_AN_CAT);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.CAT.getTitle())));
+                        break;
+
+                    case "/an adult animal": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PREPARING_CONDITIONS_FOR_THE_ARRIVAL_OF_AN_CAT);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.CAT.getTitle())));
+                    break;
+
+                    case "/a animal with disabilities": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, CAT_WITH_DISABILITIES);
+                    }
+                    break;
+
+                    case "/how to properly submit a report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SUBMISSION_OF_THE_REPORT);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.CAT.getTitle())));
+
+                    }
+                    break;
+
+                    case "/start report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, UPLOAD_PHOTO);
+//                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+//                                GREETINGS_AT_THE_SHELTER_INFO,
+//                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
+                        bot.enablingThe_processingPhotosForReport_method = true;
+                        report.setAnimalsFlag(Animals.CAT);
+                    }
+                    break;
+
+                    case "/animal not photo": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, PHOTO_IS_NOT_UPLOADED,
+                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.CAT.getTitle())));
+                    }
+                    break;
+
+                    case "/animal diet": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Вы успешно загрузили фотографию питомца." +
+                                "Ни чего вводить в строку как внизу бота, так и при загрузке фото, не нужно ! ");
+                        bot.sendMessage(chatId, " Запишите рацион животного, чем Вы его кормили ");
+                        bot.enablingThe_processingAnimalDiet_method = true;
+                        bot.animalsFlag = Animals.CAT;
+                    }
+                    break;
+
+                    case "/well-being and addiction": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
+                        bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
+                        bot.enablingThe_processingWellBeingAndAddiction_method = true;
+                        bot.animalsFlag = Animals.CAT;
+                    }
+                    break;
+
+                    case "/contact a volunteer": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, "Связаться с волонтером можно оставив сообщение здесь. \n " +
+                                "Укажите что Вы хотите сообщить. Далее если нужно, представьтесь и оставьте \n " +
+                                "для связи свои координаты телефон, почту и т.д.. ");
+                        bot.enablingMessageMethodProcessingForVolunteers = true;
+                        bot.animalsFlag = Animals.CAT;
+                    }
+                    break;
+
+                    case "/come back": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.actionSelectorFromUpdate("/menu1", chatId, report); // переходим в предыдущее меню
+
+                    }
+                    break;
+
+                    case "/come back1", "/come back2": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+                                GREETINGS_AT_THE_SHELTER_INFO,
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.CAT)));
+                    }
+                    break;
+                    case "/come back3": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+                                GREETINGS_AT_THE_SHELTER_INFO,
+                                TheFirstKeyboardOfTheEntranceShelterForAnimal.getList(Animals.CAT))); // переходим в предыдущее меню
+
+                    }
+                    break;
+                }
+                break;
+
+            case "dog":
+//               наши обоработчики для собак
+                switch (textOne) {
+                    case "/information about the shelter":
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheFirstKeyboardOfTheEntranceToTheShelterForAnimal.getList(Animals.DOG)));
+                        break;
+                    case "/how to take a pet from a shelter": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.DOG)));
+                    }
+                    break;
+
+                    case "/send a pet report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheFourthKeyboardIsToProvideAReadoutOfTheAnimal.getList(Animals.DOG)));
+                    }
+                    break;
+
+                    case "/shelter address":
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SHELTER_DOG_ADDRESS);
+                        // выводим в бот фотографию
+                        bot.sendPhoto(chatId, Animals.DOG);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle())));
+                        break;
+
+                    case "/car pass": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, REGISTRATION_OF_A_CAR_PASS_DOG_SHELTER);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/safety precautions": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SAFETY_PRECAUTIONS_DOG_SHELTER);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/visit to the shelter": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, "Чтобы записаться на посещение,\n" +
+                                "нужно правильно заполнить Сообщение :\n" +
+                                "Напишите Ваш телефон по образцу: 89210554433 дальше, через пробел, в произвольной форме:\n" +
+                                " имя фамилия, или именование организации, когда хотите посетить, во сколько, с какой целью ");
+                    }
+                    bot.enablingProcessingOfMethodsForReportingVisitToShelter = true;
+                    bot.animalsFlag = Animals.DOG;
+                    break;
+
+                    case "/visit to the shelter treatment":
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/information about the shelter" + Animals.CAT.getTitle())));
+                        break;
+
+                    case "/rules for getting to know a pet":
+                        bot.sendMessage(chatId, ADVANTAGE_OF_TREATMENT_DOG_SHELTER);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                        break;
+
+                    case "/documents for registration of guardianship": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, BASIC_TERMS);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/pet transportation": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PET_DELIVERY);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/arrangement of pet accommodation": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, GREETINGS_AT_THE_SHELTER_INFO,
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.DOG)));
+                    }
+                    break;
+
+                    case "/reasons for abandoning a pet": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, REASONS_FOR_REFUSAL_TO_ADOPTION);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/dog handler advice": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, DOG_HANDLER_ADVICE);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/recommendations from proven dog handlers": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, RECOMMENDATIONS_FROM_PROVEN_DOG_HANDLERS);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/how to take a pet from a shelter" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/animal":
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PREPARING_THE_HOUSE_FOR_THE_ARRIVAL_OF_AN_DOG);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.DOG.getTitle())));
+                        break;
+                    case "/an adult animal": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, PREPARING_CONDITIONS_FOR_THE_ARRIVAL_OF_AN_DOG);
+                    }
+                    bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                            TheReturnToKeyboardButton.getList("/arrangement of pet accommodation" + Animals.DOG.getTitle())));
+                    break;
+
+                    case "/a animal with disabilities": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, DOG_WITH_DISABILITIES);
+                    }
+                    break;
+
+                    case "/how to properly submit a report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, SUBMISSION_OF_THE_REPORT);
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, RETURN_TO_MENU,
+                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.DOG.getTitle())));
+
+                    }
+                    break;
+
+                    case "/start report": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, UPLOAD_PHOTO);
+//                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+//                                GREETINGS_AT_THE_SHELTER_INFO,
+//                                FifthKeyboardPartOneSendingAPhotoOfAnAnimal.getList(Animals.CAT), bot));
+                        bot.enablingThe_processingPhotosForReport_method = true;
+                        report.setAnimalsFlag(Animals.DOG);
+                    }
+                    break;
+
+                    case "/animal not photo": {
+                        // обработчик при этом условии
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId, PHOTO_IS_NOT_UPLOADED,
+                                TheReturnToKeyboardButton.getList("/send a pet report" + Animals.DOG.getTitle())));
+                    }
+                    break;
+
+                    case "/animal diet": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Вы успешно загрузили фотографию питомца." +
+                                "Ни чего вводить в строку как внизу бота, так и при загрузке фото, не нужно ! ");
+                        bot.sendMessage(chatId, " Запишите рацион животного, чем Вы его кормили ");
+                        bot.enablingThe_processingAnimalDiet_method = true;
+                        bot.animalsFlag = Animals.DOG;
+                    }
+                    break;
+
+                    case "/well-being and addiction": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Успешно заполнили рацион животного ");
+                        bot.sendMessage(chatId, " Опишите общее самочувствие и привыкание к новому месту животного .");
+                        bot.enablingThe_processingWellBeingAndAddiction_method = true;
+                        bot.animalsFlag = Animals.DOG;
+                    }
+                    break;
+
+                    case "/contact a volunteer": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, "Связаться с волонтером можно оставив сообщение здесь. \n " +
+                                "Укажите что Вы хотите сообщить. Далее если нужно, представьтесь и оставьте \n " +
+                                "для связи свои координаты телефон, почту и т.д.. ");
+                        bot.enablingMessageMethodProcessingForVolunteers = true;
+                        bot.animalsFlag = Animals.DOG;
+                    }
+
+                    case "/come back": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.actionSelectorFromUpdate("/menu1", chatId, report); // переходим в предыдущее меню
+
+                    }
+                    break;
+
+                    case "/come back1", "/come back2": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+                                GREETINGS_AT_THE_SHELTER_INFO,
+                                TheSecondKeyboardWeTakeAAnimalFromTheShelter.getList(Animals.DOG)));
+                    }
+                    break;
+                    case "/come back3": {
+                        // обработчик при этом условии
+                        bot.sendMessage(chatId, " Переходим в предыдущее меню");
+                        bot.sendMessage(bot.getProjectKeyboardConverter().inLineKeyboard(chatId,
+                                GREETINGS_AT_THE_SHELTER_INFO,
+                                TheThirdKeyboardIsHomeImprovementForAPet.getList(Animals.DOG))); // переходим в предыдущее меню
+
+                    }
+                    break;
+                }
+                break;
+        }
+    }
+}
